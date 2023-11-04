@@ -1,0 +1,24 @@
+langchain_agent/
+├── scraper/
+│   ├── __init__.py
+│   ├── legistar_scraper.py
+│   ├── resolutions_scraper.py
+│   └── data_api_scraper.py
+├── processor/
+│   ├── __init__.py
+│   ├── llm_processor.py
+│   ├── reliability_rating.py
+│   ├── vertical_labeler.py
+│   └── outcome_extractor.py
+├── frontend/
+│   ├── index.html
+│   ├── js/
+│   │   ├── timeline.js
+│   │   ├── city_statistics.js
+│   │   └── politician_summary.js
+│   └── css/
+│       └── style.css
+├── db/
+│   └── db_manager.py
+├── main.py
+└── requirements.txt

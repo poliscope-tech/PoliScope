@@ -1,0 +1,33 @@
+Create a high level project structure for a langchain agent to operate on city planning code.
+
+Process Flow:
+Scraping:
+- Scrape title/date/vote from https://sfgov.legistar.com/PersonDetail.aspx?ID=36652&GUID=14EFBAA7-E930-4706-BF21-399C01B1F1F6&Search=)[https://sfgov.legistar.com](https://sfgov.legistar.com)
+- Resolutions: https://sfbos.org/resolutions-2023
+- Data API: https://dev.socrata.com/
+- Export into psql database
+
+Processing:
+
+- Run LLM on combined fields and create summary table
+- Assign/calc reliability rating
+- Add vertical label
+- Extract concrete outcomes (investment, impact, etc)
+
+Frontend:
+
+- Timeline of bills past/present/future
+- City statistics by vertical
+- Summary page per politician
+
+
+Deployment Stack: Local machine
+- Scrape + local DB
+- LLM on combined fields, OpenAI calls
+
+
+Stack flow to test:
+- Generalized way of loading data. Organize code ahead of time. Interfaces for new scraper objects
+- Processing methods code
+- Export scripts to capture plotly chart generation.
+

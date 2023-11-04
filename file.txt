@@ -1,0 +1,79 @@
+import psycopg2
+
+class DBManager:
+    def __init__(self, dbname, user, password, host):
+        self.conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host)
+
+    def insert_data(self, data):
+        # Insert data into psql database
+        # This is a placeholder, update with actual insertion logic
+        pass
+class LLMProcessor:
+    def __init__(self, data):
+        self.data = data
+
+    def process(self):
+        # Run LLM on combined fields and create summary table
+        # This is a placeholder, update with actual processing logic
+        return {"summary": {}}
+class OutcomeExtractor:
+    def __init__(self, data):
+        self.data = data
+
+    def extract(self):
+        # Extract concrete outcomes (investment, impact, etc)
+        # This is a placeholder, update with actual extraction logic
+        return {"outcomes": {}}
+class ReliabilityRating:
+    def __init__(self, data):
+        self.data = data
+
+    def calculate(self):
+        # Assign/calc reliability rating
+        # This is a placeholder, update with actual calculation logic
+        return {"reliability_rating": 0}
+class VerticalLabeler:
+    def __init__(self, data):
+        self.data = data
+
+    def label(self):
+        # Add vertical label
+        # This is a placeholder, update with actual labeling logic
+        return {"vertical_label": ""}
+import requests
+
+class DataAPIScraper:
+    def __init__(self, url):
+        self.url = url
+
+    def scrape(self):
+        response = requests.get(self.url)
+        # Scrape data from API
+        # This is a placeholder, update with actual scraping logic
+        return {"data": []}
+import requests
+from bs4 import BeautifulSoup
+
+class LegistarScraper:
+    def __init__(self, url):
+        self.url = url
+
+    def scrape(self):
+        response = requests.get(self.url)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        # Scrape title, date, vote
+        # This is a placeholder, update with actual scraping logic
+        return {"title": "", "date": "", "vote": ""}
+import requests
+from bs4 import BeautifulSoup
+
+class ResolutionsScraper:
+    def __init__(self, url):
+        self.url = url
+
+    def scrape(self):
+        response = requests.get(self.url)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        # Scrape resolutions
+        # This is a placeholder, update with actual scraping logic
+        return {"resolutions": []}
