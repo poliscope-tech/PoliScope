@@ -75,7 +75,6 @@ class LLMProcessor:
         self.data['faster_permitting_process_and_bureaucracy_score'] = self.data.apply(lambda x: np.random.randint(1, 10)/10.0, axis=1)
         self.data['land_use_and_zoning_reform'] = self.data.apply(lambda x: np.random.randint(1, 10)/10.0, axis=1)
 
-
         return self.data
 
 if __name__=='__main__':
