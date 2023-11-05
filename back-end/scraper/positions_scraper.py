@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-import json
+import csv
 
 class DataAPIScraper:
     def __init__(self):
@@ -67,5 +67,12 @@ class DataAPIScraper:
 
 scrpr = DataAPIScraper()
 positions = scrpr.scrape()
-with open('data/json/positions.json', 'w', encoding='utf-8') as f:
-    json.dump(positions, f, ensure_ascii=False, indent=4)
+with open('data/csv/positions.csv', mode='w', newline='', encoding='utf-8') as file:
+    writer = csv.writer(file)
+    
+    # Write the header
+    writer.writerow(['politician', 'position'])
+    
+    # Write the data
+    for politician, position in positions.items():
+        writer.writerow([politician, position])

@@ -13,7 +13,7 @@ class LLMProcessor:
     def __init__(self, data):
         self.data = pd.read_csv(data, nrows=5) ## Testing on 5 rows
 
-    def initialize_agent(self, agent_def_path):
+    def initialize_agent(self, agent_def_path, model_name="gpt-3.5-turbo"):
         """Initialize the agent and return it."""
         ## Load prompts
         with open(agent_def_path) as f:
@@ -26,10 +26,10 @@ class LLMProcessor:
             HumanMessagePromptTemplate.from_template("{human_input}"),  # Human input
         ])
 
-        memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+        memory = ConversationBufferMemory(memory_key="chat_history", return_messages=False)
 
         llm = ChatOpenAI(
-            model_name='gpt-3.5-turbo',
+            model_name=model_name,
             temperature=0,
             request_timeout=120,
         )
@@ -54,6 +54,19 @@ class LLMProcessor:
     
     def apply_scorer_agent(self, row):
         return self.run_agent(self.scorer_agent, row['scorer_field'])
+    
+    def apply_positions_agent(self, row):
+        return self.run_agent(self.positions_agent, row["position"])
+    
+    def process_positions(self):
+        data_path_name = './data/csv/positions.csv'
+        data = pd.read_csv(data_path_name)
+        # Run LLM on combined fields and create summary table
+        # This is a placeholder, update with actual processing logic
+        ## Change to apply
+        # llm_response = self.run_agent(self.agent, self.data['Title'][1])
+        data['position'] = data.apply(self.apply_positions_agent, axis=1)
+        return self.data
 
     def process(self):
         # Run LLM on combined fields and create summary table
