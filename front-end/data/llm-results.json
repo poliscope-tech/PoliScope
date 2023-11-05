@@ -1,21 +1,6 @@
 [
   {
     "name": "Myrna_Melgar",
-    "id": 0,
-    "file-nr": "",
-    "action-date": "",
-    "title": "",
-    "vote": "",
-    "meeting body": "",
-    "category": "NaN",
-    "affordable_housing_development_score": 0.6,
-    "tenant_protections_score": 0.7,
-    "homelessness_and_supportive_housing_score": 0.6,
-    "faster_permitting_process_and_bureaucracy_score": 0.6,
-    "land_use_and_zoning_reform": 0.5
-  },
-  {
-    "name": "Myrna_Melgar",
     "id": 1,
     "file-nr": 230701,
     "action-date": "10/30/2023",
