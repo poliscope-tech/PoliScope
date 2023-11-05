@@ -11,9 +11,11 @@ https://supabase.com/docs/reference/python/initializing
 Available on [Notion](https://www.notion.so/Passwords-053d445fed0e4fa9abad3b231de19a08?pvs=4)
 
 # Access API
-Replace `SUPABASE_KEY` with the actual value. Paste this in your Terminal or PostMan.
+Replace `SUPABASE_KEY` with the actual value. 
+
+/GET all politicians
 ```
-curl 'https://hxrggsnimtifedjvpupp.supabase.co/rest/v1/politicians?select=name' \
+curl 'https://hxrggsnimtifedjvpupp.supabase.co/rest/v1/politicians?select=*' \
 -H "apikey: SUPABASE_KEY" \
 -H "Authorization: Bearer SUPABASE_KEY"
 ```
