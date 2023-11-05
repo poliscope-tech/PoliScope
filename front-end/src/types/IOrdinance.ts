@@ -1,7 +1,7 @@
 export interface IOrdinance {
-  id: string
+  ID: string
   Title: string
-  'Meeting Body': string
+  summary: string
   'Meeting Body': string
   'Action Date': string
   vote: 'Yay' | 'No' | 'Excused'
