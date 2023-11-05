@@ -1,33 +1,34 @@
 // src/components/NavBar/NavBar.js
-import React, { useState } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
-import './NavBar.css'; // Make sure to create this file and define your styles
+import './NavBar.css'; // Make sure to create a NavBar.css file in the same directory
 
 const NavBar = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  // Your React component code will go here
 
   return (
-    <nav className="nav-container">
-      <NavLink to="/" className="nav-item">
-        Home
-      </NavLink>
+    <nav className="navbar navbar-expand-lg navbar-dark sticky-top" style={{ backgroundColor: '#000000' }}>
+      <div className="logo-container">
+        <div className="avatar" style={{ cursor: 'pointer', border: '3px solid white', borderRadius: '50%' }} onClick={() => {/* Navigate to home */}}>
+          {/* Replace with <img> tag and set src to your profile picture */}
+          <img src="path_to_profilepic.jpg" className="logo" style={{ borderRadius: '15%' }} alt="Profile" />
+        </div>
 
-      <div className="dropdown">
-        <button 
-          className="dropbtn" 
-          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        >
-          Elected Officials
-        </button>
-        {isDropdownOpen && (
-          <div className="dropdown-content">
-            <NavLink to="/official/dean-preston" className="dropdown-item">
-              Dean Preston
+        <div className="name-and-icons">
+          {/* Update the navigation links as per your routing */}
+          <NavLink to="/" className="navbar-brand spacing-nav" style={{ color: 'black', alignSelf: 'center' }}>
+            William Francis
+          </NavLink>
+          <div className="social-media-icons">
+            {/* Update these with your icons and links */}
+            <NavLink to="/twitter" className="nav-link">
+              <i className="fab fa-twitter"></i>
             </NavLink>
-            {/* Additional Elected Officials will be added here */}
+            {/* Repeat for other icons */}
           </div>
-        )}
+        </div>
       </div>
+      {/* ...rest of the navbar code */}
     </nav>
   );
 };
