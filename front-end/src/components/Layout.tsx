@@ -84,12 +84,12 @@ function FixedSidebar({
             <div className="relative">
               <div
                 className="absolute left-1/3 top-0 flex -translate-x-1/3 transform space-x-12"
-                style={{ marginTop: '-7rem' }} // Adjusted for vertical spacing
+                style={{ marginTop: '-15rem' }} // Increased the negative margin to move avatars up
               >
                 <img
                   src="/images/avatar1.jpeg"
                   alt="Avatar 1"
-                  className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg" // changed from object-cover to object-contain
+                  className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
                 />
                 <img
                   src="/images/avatar2.jpeg"

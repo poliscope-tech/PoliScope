@@ -21,9 +21,8 @@ const monaSans = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'Commit - Open-source Git client for macOS minimalists',
-  description:
-    'Commit is a lightweight Git client you can open from anywhere any time you’re ready to commit your work with a single keyboard shortcut. It’s fast, beautiful, and completely unnecessary.',
+  title: 'PoliScope - Bills at a Glance',
+  description: ' ',
 }
 
 export default function RootLayout({
