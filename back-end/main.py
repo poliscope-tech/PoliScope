@@ -22,11 +22,9 @@ def main():
     # Check if the DataFrame is not empty
     if not data_frame.empty:
         # Initialize the LLM Processor with the data from Supabase
-        llm_processor = LLMProcessor(data_path_name)
-
-        # Assuming that 'agent_prompts/summarizer.txt' contains the necessary prompt to initialize the agent
-        agent_definition_path = './processor/agent_prompts/summarizer.txt'
-        llm_processor.initialize_agent(agent_definition_path)
+        summarizer_agent_path = './processor/agent_prompts/summarizer.txt'
+        scorer_agent_path = './processor/agent_prompts/scorer.txt'
+        llm_processor = LLMProcessor(data_path_name, summarizer_agent_path, scorer_agent_path)
 
         # Process the data with the LLM
         llm_processor.process()

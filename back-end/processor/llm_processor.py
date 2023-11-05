@@ -10,8 +10,10 @@ import pandas as pd
 import numpy as np
 
 class LLMProcessor:
-    def __init__(self, data):
+    def __init__(self, data, summarizer_agent_path='', scorer_agent_path=''):
         self.data = pd.read_csv(data, nrows=5) ## Testing on 5 rows
+        self.summarizer_agent = self.initialize_agent(summarizer_agent_path)
+        self.scorer_agent = self.initialize_agent(scorer_agent_path)
 
     def initialize_agent(self, agent_def_path):
         """Initialize the agent and return it."""
@@ -33,12 +35,14 @@ class LLMProcessor:
             temperature=0,
             request_timeout=120,
         )
+
         chat_llm_chain = LLMChain(
             llm=llm,
             prompt=prompt,
             verbose=True,
             memory=memory,
         )
+
         self.agent = chat_llm_chain
     
     def run_agent(self, agent, human_input):
@@ -46,8 +50,11 @@ class LLMProcessor:
         result = agent.predict(human_input=human_input)
         return result
 
-    def apply_run_agent(self, row):
-        return self.run_agent(self.agent, row['Title'])
+    def apply_summarizer_agent(self, row):
+        return self.run_agent(self.summarizer_agent, row['Title'])
+    
+    def apply_scorer_agent(self, row):
+        return self.run_agent(self.scorer_agent, row['Title'])
 
     def process(self):
         # Run LLM on combined fields and create summary table
@@ -58,8 +65,15 @@ class LLMProcessor:
         self.data['category'] = self.data.apply(self.apply_run_agent, axis=1)
         # print(llm_response)
 
+        # self.data['scorer_field'] = 
+
+        ## Apply on all not in 'other' category field
+        self.data['category'] = self.data.apply(self.apply_run_agent, axis=1)
 
         ## Add scoring
+
+
+        ## Placeholder scorings
         self.data['affordable_housing_development_score'] = self.data.apply(lambda x: np.random.randint(1, 10)/10.0, axis=1)
         self.data['tenant_protections_score'] = self.data.apply(lambda x: np.random.randint(1, 10)/10.0, axis=1)
         self.data['homelessness_and_supportive_housing_score'] = self.data.apply(lambda x: np.random.randint(1, 10)/10.0, axis=1)
@@ -71,7 +85,7 @@ class LLMProcessor:
 
 if __name__=='__main__':
 
-    test_processor = LLMProcessor('../data/csv/Ahsha_Safai.csv')
+    test_processor = LLMProcessor('../data/ingest.csv')
     test_processor.initialize_agent('./agent_prompts/summarizer.txt')
 
     test_processor.process()
