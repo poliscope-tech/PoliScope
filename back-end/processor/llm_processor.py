@@ -7,6 +7,7 @@ from langchain.schema import SystemMessage
 from langchain.chains import LLMChain
 
 import pandas as pd
+import numpy as np
 
 class LLMProcessor:
     def __init__(self, data):
@@ -54,8 +55,16 @@ class LLMProcessor:
 
         ## Change to apply
         # llm_response = self.run_agent(self.agent, self.data['Title'][1])
-        self.data['llm_response'] = self.data.apply(self.apply_run_agent, axis=1)
+        self.data['category'] = self.data.apply(self.apply_run_agent, axis=1)
         # print(llm_response)
+
+
+        ## Add scoring
+        self.data['affordable_housing_development_score'] = self.data.apply(lambda x: np.random.randint(1, 10)/10.0, axis=1)
+        self.data['tenant_protections_score'] = self.data.apply(lambda x: np.random.randint(1, 10)/10.0, axis=1)
+        self.data['homelessness_and_supportive_housing_score'] = self.data.apply(lambda x: np.random.randint(1, 10)/10.0, axis=1)
+        self.data['faster_permitting_process_and_bureaucracy_score'] = self.data.apply(lambda x: np.random.randint(1, 10)/10.0, axis=1)
+        self.data['land_use_and_zoning_reform'] = self.data.apply(lambda x: np.random.randint(1, 10)/10.0, axis=1)
 
 
         return self.data

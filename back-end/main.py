@@ -13,7 +13,7 @@ def main():
     supabase_connector = SupabaseConnector(supabase_url, supabase_key)
 
     # Read data from the Supabase table
-    table_name = "aaron_peskin"  # Replace with your actual table name
+    table_name = "politicians"  # Replace with your actual table name
     data_frame = supabase_connector.read_table(table_name)
 
     data_path_name = './data/ingest.csv'
