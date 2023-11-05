@@ -1,5 +1,5 @@
 import { IOrdinance } from '@/types'
-import { FeedPage } from '../../pages/FeedPage'
+import { FeedPage } from '../../views/FeedPage'
 
 async function getData() {
   const options = {
