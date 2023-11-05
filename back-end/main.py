@@ -35,18 +35,19 @@ def main():
     data_path_name = './data/csv/politicians.csv'
     positions = False
 
-    # data_frame = supabase_connector.read_table(table_name)
-    # data_frame.to_csv(data_path_name, index=False)
+    data_frame = supabase_connector.read_table(table_name)
+    data_frame.to_csv(data_path_name, index=False)
 
     # Check if the DataFrame is not empty
-    # if not data_frame.empty:
-    if True:
+    if not data_frame.empty:
         # Initialize the LLM Processor with the data from Supabase
         summarizer_agent_path = './processor/agent_prompts/summarizer.txt'
+        categorizer_agent_path = './processor/agent_prompts/categorizer.txt'
         scorer_agent_path = './processor/agent_prompts/scorer.txt'
         positions_agent_path = './processor/agent_prompts/position_classifier.txt'
         llm_processor = LLMProcessor(data_path_name)
         llm_processor.summarizer_agent = llm_processor.initialize_agent(summarizer_agent_path)
+        llm_processor.categorizer_agent = llm_processor.initialize_agent(categorizer_agent_path)
         llm_processor.scorer_agent = llm_processor.initialize_agent(scorer_agent_path)
         llm_processor.positions_agent = llm_processor.initialize_agent(positions_agent_path, model_name="gpt-4")
         

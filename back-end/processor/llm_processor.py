@@ -12,7 +12,7 @@ import numpy as np
 
 class LLMProcessor:
     def __init__(self, data):
-        self.data = pd.read_csv(data) ## Testing on 5 rows
+        self.data = pd.read_csv(data, nrows=3) ## Testing on 5 rows
         self.data = self.data.dropna(how='any')
 
     def initialize_agent(self, agent_def_path, model_name="gpt-3.5-turbo"):
@@ -83,6 +83,9 @@ class LLMProcessor:
     def apply_summarizer_agent(self, row):
         return self.run_agent(self.summarizer_agent, row['Title'])
     
+    def apply_categorizer_agent(self, row):
+        return self.run_agent(self.categorizer_agent, row['Title'])
+
     def apply_scorer_agent(self, row):
         return self.run_agent(self.scorer_agent, row['scorer_field'])
     
@@ -101,10 +104,9 @@ class LLMProcessor:
 
     def process(self):
         # Run LLM on combined fields and create summary table
-        # This is a placeholder, update with actual processing logic
-        ## Change to apply
         # llm_response = self.run_agent(self.agent, self.data['Title'][1])
-        self.data['category'] = self.data.apply(self.apply_summarizer_agent, axis=1)
+        self.data['category'] = self.data.apply(self.apply_categorizer_agent, axis=1)
+        self.data['summary'] = self.data.apply(self.apply_summarizer_agent, axis=1)
         # print(llm_response)
 
         self.data['scorer_field'] = '"' + self.data['category'] + '"' +  ', ' + '"' + self.data['Vote'] + '"' + ', ' +  '"' + self.data['Title'] +  '"'
