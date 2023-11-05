@@ -8,3 +8,4 @@ lxml
 langchain
 openai
 supabase
+psycopg2-binary

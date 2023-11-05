@@ -11,9 +11,6 @@ supabase_key = os.environ.get("SUPABASE_KEY")
 import pandas as pd
 from datetime import datetime, timedelta
 
-import pandas as pd
-from datetime import datetime
-
 def filter_last_n_months(df, column_name='Action Date', months_ago=1, date_format='%m/%d/%Y'):
     """
     Filter a DataFrame for rows from the last n months.
@@ -35,7 +32,7 @@ def filter_last_n_months(df, column_name='Action Date', months_ago=1, date_forma
     df = df[(df['month'] > 11 - months_ago) & (df['year']==2023)]
     
     return df
-
+    
 
 def main():
     # Initialize the Supabase connector
@@ -69,7 +66,11 @@ def main():
         
         ## Filter data
         # Assuming you have a DataFrame 'df' with a dat63e column named 'Action Date'
-        llm_processor.data = filter_last_n_months(llm_processor.data, 'Action Date', 2)  # This will filter for the last 3 months
+        llm_processor.data = filter_last_n_months(llm_processor.data, 'Action Date', 6)  # This will filter for the last 3 months
+        ## Filter on 1 politician
+        llm_processor.data = llm_processor.data[llm_processor.data['name']=='Dean_Preston']
+        llm_processor.data = llm_processor.data[llm_processor.data['Meeting Body'].isin(['Land Use and Transportation Committee', 'Homelessness and Behavioral Health Select Committee'])]
+        print(llm_processor.data.shape, 'size after filter')
 
         if positions:
             llm_processor.process_positions()
