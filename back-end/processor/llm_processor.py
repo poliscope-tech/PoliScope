@@ -85,6 +85,12 @@ class LLMProcessor:
     def apply_summarizer_agent(self, row):
         return self.run_agent(self.summarizer_agent, row['Title'])
     
+    def apply_categorizer_agent(self, row):
+        return self.run_agent(self.categorizer_agent, row['Title'])
+
+    def apply_categorizer_big_agent(self, row):
+        return self.run_agent(self.categorizer_big_agent, row['Title'])
+
     def apply_scorer_agent(self, row):
         return self.run_agent(self.scorer_agent, row['scorer_field'])
     
@@ -94,28 +100,28 @@ class LLMProcessor:
     def process_positions(self):
         data_path_name = './data/csv/positions.csv'
         data = pd.read_csv(data_path_name)
-        # Run LLM on combined fields and create summary table
-        # This is a placeholder, update with actual processing logic
-        ## Change to apply
         # llm_response = self.run_agent(self.agent, self.data['Title'][1])
         data['position'] = data.apply(self.apply_positions_agent, axis=1)
         return self.data
 
     def process(self):
-        # Run LLM on combined fields and create summary table
-        # This is a placeholder, update with actual processing logic
-        ## Change to apply
-        # llm_response = self.run_agent(self.agent, self.data['Title'][1])
-        self.data['category'] = self.data.apply(self.apply_summarizer_agent, axis=1)
-        # print(llm_response)
 
+        # Run LLM on combined fields and create summary table
+        self.data['category_big'] = self.data.apply(self.apply_categorizer_big_agent, axis=1)
+        self.data = self.data[self.data['category_big'] =='Housing & Buildings']
+
+        # llm_response = self.run_agent(self.agent, self.data['Title'][1])
+        self.data['category'] = self.data.apply(self.apply_categorizer_agent, axis=1)
+        self.data['summary'] = self.data.apply(self.apply_summarizer_agent, axis=1)
+        # print(llm_response)
+        
         self.data['scorer_field'] = '"' + self.data['category'] + '"' +  ', ' + '"' + self.data['Vote'] + '"' + ', ' +  '"' + self.data['Title'] +  '"'
 
         ## Apply on all not in 'other' category field
         self.data['score'] = self.data.apply(self.apply_scorer_agent, axis=1)
         self.conditionally_set_null()
 
-        self.data.fillna(value=0)
+        self.data.fillna(value=0.0)
 
         return self.data
 
@@ -125,8 +131,5 @@ if __name__=='__main__':
     test_processor.initialize_agent('./agent_prompts/summarizer.txt')
 
     test_processor.process()
-
-    ## 
-
 
 
