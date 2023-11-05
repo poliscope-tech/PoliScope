@@ -26,7 +26,7 @@ class LLMProcessor:
             HumanMessagePromptTemplate.from_template("{human_input}"),  # Human input
         ])
 
-        memory = ConversationBufferMemory(memory_key="chat_history", return_messages=False)
+        memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
         llm = ChatOpenAI(
             model_name=model_name,
