@@ -27,14 +27,15 @@ const BarGraph: React.FC<BarGraphProps> = ({ bill }) => {
         border: '1px solid black',
       }}
     >
-      {/* Zero line */}
+      {/* Zero line with off-white color and shadow */}
       <div
         style={{
           position: 'absolute',
           bottom: `${baseSize}px`, // Position at the baseSize height
           left: 0,
           right: 0,
-          borderTop: '2px dotted black',
+          borderTop: '2px dotted #F5F5F5', // off-white color for the dotted line
+          boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.25)', // shadow effect
           zIndex: 1, // Ensure it's above the bars
         }}
       />
