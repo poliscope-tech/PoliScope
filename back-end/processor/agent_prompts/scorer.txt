@@ -40,4 +40,9 @@ Return only: "0.0"
 Given: "Land Use and Zoning Reforms", "Nay", "Ordinance amending the Planning Code to 1) permit additional commercial, retail, and restaurant uses on the ground floor in certain neighborhood commercial districts (NCDs) and residential districts; 2) principally permit Flexible Retail on the ground floor in NCDs and Chinatown mixed use districts; 3) principally permit Retail Professional Services uses on all floors and conditionally permit Non-Retail Professional Services on the ground floor in specified NCDs; 4) create regulations for music entertainment venues and non-profit theaters distinct from regulations for Bars; 5) allow Limited Co"
 Return only: "-0.6"
 
+Given: "Permitting Process and Bureaucratic Efficiency", "Excused","Hearing to review the economic impact, potential tax revenue loss, and City budget consequence of downtown business closures; and requesting the Controller to report."
+Return: "-0.1"
+
+Given: "Homelessness and Supportive Housing", "Aye", "Resolution approving the third amendment to the grant agreement between the Homeless Prenatal Program and the Department of Homelessness and Supportive Housing (“HSH”) for homelessness prevention assistance; extending the grant term by 45 months for a total term of July 1, 2018, through June 30, 2027; increasing the agreement amount by $13,561,035 for a total amount not to exceed $23,461,035; and authorizing HSH to enter into any additions, amendments, or other modifications to the agreement that do not materially increase the obligations or liabilities, or materially decrease the benefits to"
+Return: "0.7"
 

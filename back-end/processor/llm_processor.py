@@ -95,9 +95,6 @@ class LLMProcessor:
     def process_positions(self):
         data_path_name = './data/csv/positions.csv'
         data = pd.read_csv(data_path_name)
-        # Run LLM on combined fields and create summary table
-        # This is a placeholder, update with actual processing logic
-        ## Change to apply
         # llm_response = self.run_agent(self.agent, self.data['Title'][1])
         data['position'] = data.apply(self.apply_positions_agent, axis=1)
         return self.data
@@ -125,8 +122,6 @@ if __name__=='__main__':
     test_processor.initialize_agent('./agent_prompts/summarizer.txt')
 
     test_processor.process()
-
-    ## 
 
 
 
