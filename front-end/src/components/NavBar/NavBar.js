@@ -1,34 +1,33 @@
 // src/components/NavBar/NavBar.js
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import './NavBar.css'; // Make sure to create a NavBar.css file in the same directory
+import './NavBar.css';
 
 const NavBar = () => {
-  // Your React component code will go here
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark sticky-top" style={{ backgroundColor: '#000000' }}>
-      <div className="logo-container">
-        <div className="avatar" style={{ cursor: 'pointer', border: '3px solid white', borderRadius: '50%' }} onClick={() => {/* Navigate to home */}}>
-          {/* Replace with <img> tag and set src to your profile picture */}
-          <img src="path_to_profilepic.jpg" className="logo" style={{ borderRadius: '15%' }} alt="Profile" />
-        </div>
+    <nav className="navbar">
+      <div>
+        <NavLink to="/" className="nav-link" exact>
+          Home
+        </NavLink>
 
-        <div className="name-and-icons">
-          {/* Update the navigation links as per your routing */}
-          <NavLink to="/" className="navbar-brand spacing-nav" style={{ color: 'black', alignSelf: 'center' }}>
-            William Francis
-          </NavLink>
-          <div className="social-media-icons">
-            {/* Update these with your icons and links */}
-            <NavLink to="/twitter" className="nav-link">
-              <i className="fab fa-twitter"></i>
-            </NavLink>
-            {/* Repeat for other icons */}
-          </div>
+        <div className="dropdown">
+          <button className="dropbtn" onClick={() => setIsOpen(!isOpen)}>
+            Elected Officials
+          </button>
+          {isOpen && (
+            <div className="dropdown-content">
+              <NavLink to="/official/dean-preston" className="dropdown-item">
+                Dean Preston
+              </NavLink>
+              {/* Add more officials as needed */}
+            </div>
+          )}
         </div>
       </div>
-      {/* ...rest of the navbar code */}
+      {/* Add additional navbar items or empty div if needed for spacing */}
     </nav>
   );
 };

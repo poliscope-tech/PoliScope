@@ -1,21 +1,37 @@
 /* src/components/NavBar/NavBar.css */
 .navbar {
   display: flex;
-  align-items: center; /* Centers items vertically */
-  background-color: #1c2121; /* Sets the background color */
-  padding: 0 1rem; /* Adds some padding on the left and right */
-  height: 50px; /* Sets the height of the navbar */
+  justify-content: space-between;
+  align-items: center;
+  background-color: #212322; /* Updated background color */
+  padding: 0 1rem;
+  height: 50px; /* Updated height */
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.logo-container .avatar {
+  cursor: pointer;
+  margin-right: 10px; /* Space between the avatar and the text */
+}
+
+.logo {
+  border-radius: 15%; /* Adjust the border-radius as needed */
 }
 
 .nav-link, .dropbtn {
   color: white;
   padding: 0.5rem;
   text-decoration: none;
-  margin-right: 10px; /* Adds spacing between the links */
+  margin-right: 10px;
 }
 
 .nav-link:hover, .dropdown-content a:hover, .dropbtn:hover {
-  background-color: #0ecac1; /* Slightly darker shade for hover effect */
+  background-color: #dfe5e5; /* Slightly darker shade for hover effect */
   color: black;
 }
 
@@ -43,3 +59,16 @@
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+/* Media query and animations from your old project */
+@media (max-width: 768px) {
+  .logo-container .logo {
+    width: 25px;
+    height: 25px;
+  }
+  
+  .logo-container {
+    margin-top: -8px;
+  }
+}
+
