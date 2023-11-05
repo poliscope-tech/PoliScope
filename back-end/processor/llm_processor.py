@@ -9,9 +9,11 @@ from langchain.chains import LLMChain
 import pandas as pd
 import numpy as np
 
+
 class LLMProcessor:
     def __init__(self, data):
-        self.data = pd.read_csv(data, nrows=5) ## Testing on 5 rows
+        self.data = pd.read_csv(data) ## Testing on 5 rows
+        self.data = self.data.dropna(how='any')
 
     def initialize_agent(self, agent_def_path, model_name="gpt-3.5-turbo"):
         """Initialize the agent and return it."""
@@ -46,6 +48,33 @@ class LLMProcessor:
         self.agent = chat_llm_chain
         return self.agent
     
+    def conditionally_set_null(self):
+        # Define the custom function to apply
+        def custom_function(row):
+            # Map of category to score column
+            category_column_map = {
+                'Affordable Housing Development': 'affordable_housing_development_score',
+                'Tenant Protections': 'tenant_protections_score',
+                'Homelessness and Supportive Housing': 'homelessness_and_supportive_housing_score',
+                'Permitting Process and Bureaucratic Efficiency': 'faster_permitting_process_and_bureaucracy_score',
+                'Land Use and Zoning Reforms': 'land_use_and_zoning_reform_score'
+            }
+            # Get the score column corresponding to the category
+            score_column = category_column_map.get(row['category'])
+            if score_column:
+                # If the category matches, retain the score; else set to None
+                row[score_column] = row['score']
+            return row
+        
+        # Set all score columns to None initially
+        self.data[['affordable_housing_development_score', 'tenant_protections_score',
+                   'homelessness_and_supportive_housing_score', 'faster_permitting_process_and_bureaucracy_score',
+                   'land_use_and_zoning_reform_score']] = None
+        
+        # Use DataFrame.apply with axis=1 to apply the custom function row-wise
+        self.data = self.data.apply(custom_function, axis=1)
+        return self.data
+
     def run_agent(self, agent, human_input):
         """Run the provided agent using the input and return the result."""
         result = agent.predict(human_input=human_input)
@@ -62,7 +91,7 @@ class LLMProcessor:
     
     def process_positions(self):
         data_path_name = './data/csv/positions.csv'
-        data = pd.read_csv(data_path_name, nrows=2)
+        data = pd.read_csv(data_path_name)
         # Run LLM on combined fields and create summary table
         # This is a placeholder, update with actual processing logic
         ## Change to apply
@@ -82,13 +111,9 @@ class LLMProcessor:
 
         ## Apply on all not in 'other' category field
         self.data['score'] = self.data.apply(self.apply_scorer_agent, axis=1)
+        self.conditionally_set_null()
 
-        ## Placeholder scorings
-        self.data['affordable_housing_development_score'] = self.data.apply(lambda x: np.random.randint(1, 10)/10.0, axis=1)
-        self.data['tenant_protections_score'] = self.data.apply(lambda x: np.random.randint(1, 10)/10.0, axis=1)
-        self.data['homelessness_and_supportive_housing_score'] = self.data.apply(lambda x: np.random.randint(1, 10)/10.0, axis=1)
-        self.data['faster_permitting_process_and_bureaucracy_score'] = self.data.apply(lambda x: np.random.randint(1, 10)/10.0, axis=1)
-        self.data['land_use_and_zoning_reform_score'] = self.data.apply(lambda x: np.random.randint(1, 10)/10.0, axis=1)
+        self.data.fillna(value=0)
 
         return self.data
 
