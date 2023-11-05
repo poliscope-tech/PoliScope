@@ -105,8 +105,8 @@ class LLMProcessor:
     def process(self):
 
         # Run LLM on combined fields and create summary table
-        self.data['category_big'] = self.data.apply(self.apply_categorizer_big_agent, axis=1)
-        self.data = self.data[self.data['category_big'] =='Housing & Buildings']
+        # self.data['category_big'] = self.data.apply(self.apply_categorizer_big_agent, axis=1)
+        # self.data = self.data[self.data['category_big'] =='Housing & Buildings']
 
         # llm_response = self.run_agent(self.agent, self.data['Title'][1])
         self.data['category'] = self.data.apply(self.apply_categorizer_agent, axis=1)
@@ -119,7 +119,7 @@ class LLMProcessor:
         self.data['score'] = self.data.apply(self.apply_scorer_agent, axis=1)
         self.conditionally_set_null()
 
-        self.data.fillna(value=0.0)
+        self.data = self.data.fillna(value=0.0)
 
         return self.data
 
