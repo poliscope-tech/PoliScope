@@ -1,7 +1,7 @@
 import os
 from langchain.llms.openai import OpenAI
 from langchain.chat_models import ChatOpenAI
-from langchain.memory import ConversationBufferMemory
+from langchain.memory import ConversationBufferMemory, ConversationEntityMemory
 from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate, MessagesPlaceholder
 from langchain.schema import SystemMessage
 from langchain.chains import LLMChain
@@ -22,7 +22,7 @@ class LLMProcessor:
         # Setup the chat prompt with memory
         prompt = ChatPromptTemplate.from_messages([
             SystemMessage(content=system_prompt),  # The persistent system prompt
-            MessagesPlaceholder(variable_name="chat_history"),  # Where the memory will be stored
+            # MessagesPlaceholder(variable_name="chat_history"),  # Where the memory will be stored
             HumanMessagePromptTemplate.from_template("{human_input}"),  # Human input
         ])
 
@@ -33,6 +33,8 @@ class LLMProcessor:
             temperature=0,
             request_timeout=120,
         )
+
+        # memory = ConversationEntityMemory(llm=llm)
 
         chat_llm_chain = LLMChain(
             llm=llm,
@@ -60,7 +62,7 @@ class LLMProcessor:
     
     def process_positions(self):
         data_path_name = './data/csv/positions.csv'
-        data = pd.read_csv(data_path_name)
+        data = pd.read_csv(data_path_name, nrows=2)
         # Run LLM on combined fields and create summary table
         # This is a placeholder, update with actual processing logic
         ## Change to apply
@@ -86,7 +88,7 @@ class LLMProcessor:
         self.data['tenant_protections_score'] = self.data.apply(lambda x: np.random.randint(1, 10)/10.0, axis=1)
         self.data['homelessness_and_supportive_housing_score'] = self.data.apply(lambda x: np.random.randint(1, 10)/10.0, axis=1)
         self.data['faster_permitting_process_and_bureaucracy_score'] = self.data.apply(lambda x: np.random.randint(1, 10)/10.0, axis=1)
-        self.data['land_use_and_zoning_reform'] = self.data.apply(lambda x: np.random.randint(1, 10)/10.0, axis=1)
+        self.data['land_use_and_zoning_reform_score'] = self.data.apply(lambda x: np.random.randint(1, 10)/10.0, axis=1)
 
         return self.data
 
