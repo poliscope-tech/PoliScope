@@ -12,7 +12,7 @@ import numpy as np
 
 class LLMProcessor:
     def __init__(self, data):
-        self.data = pd.read_csv(data) ## Testing on 5 rows
+        self.data = pd.read_csv(data, nrows=3) ## Testing on 5 rows
         self.data = self.data.dropna(how='any')
 
     def initialize_agent(self, agent_def_path, model_name="gpt-3.5-turbo"):
@@ -48,23 +48,24 @@ class LLMProcessor:
         self.agent = chat_llm_chain
         return self.agent
     
+    def custom_function(self, row):
+        # Map of category to score column
+        category_column_map = {
+            'Affordable Housing Development': 'affordable_housing_development_score',
+            'Tenant Protections': 'tenant_protections_score',
+            'Homelessness and Supportive Housing': 'homelessness_and_supportive_housing_score',
+            'Permitting Process and Bureaucratic Efficiency': 'faster_permitting_process_and_bureaucracy_score',
+            'Land Use and Zoning Reforms': 'land_use_and_zoning_reform_score'
+        }
+        # Get the score column corresponding to the category
+        score_column = category_column_map.get(row['category'])
+        if score_column:
+            # If the category matches, retain the score; else set to None
+            row[score_column] = row['score']
+        return row
+
     def conditionally_set_null(self):
         # Define the custom function to apply
-        def custom_function(row):
-            # Map of category to score column
-            category_column_map = {
-                'Affordable Housing Development': 'affordable_housing_development_score',
-                'Tenant Protections': 'tenant_protections_score',
-                'Homelessness and Supportive Housing': 'homelessness_and_supportive_housing_score',
-                'Permitting Process and Bureaucratic Efficiency': 'faster_permitting_process_and_bureaucracy_score',
-                'Land Use and Zoning Reforms': 'land_use_and_zoning_reform_score'
-            }
-            # Get the score column corresponding to the category
-            score_column = category_column_map.get(row['category'])
-            if score_column:
-                # If the category matches, retain the score; else set to None
-                row[score_column] = row['score']
-            return row
         
         # Set all score columns to None initially
         self.data[['affordable_housing_development_score', 'tenant_protections_score',
@@ -72,7 +73,8 @@ class LLMProcessor:
                    'land_use_and_zoning_reform_score']] = None
         
         # Use DataFrame.apply with axis=1 to apply the custom function row-wise
-        self.data = self.data.apply(custom_function, axis=1)
+        self.data = self.data.apply(self.custom_function, axis=1)
+        self.data.drop(['score'], inplace=True)
         return self.data
 
     def run_agent(self, agent, human_input):
