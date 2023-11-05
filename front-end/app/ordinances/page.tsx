@@ -1,10 +1,10 @@
-import { Container } from "@/components/Container";
+import { Container } from '@/components/Container'
 
 export default async function Home() {
   return (
     <>
-      <Container className="mt-9">
-        <div className="max-w-2xl">
+      <Container>
+        <div>
           <h1 className="text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl">
             Ordinances
           </h1>
@@ -14,5 +14,5 @@ export default async function Home() {
 
       <Container className="mt-24 md:mt-28"></Container>
     </>
-  );
+  )
 }
