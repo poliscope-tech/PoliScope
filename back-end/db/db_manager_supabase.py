@@ -9,7 +9,10 @@ class SupabaseConnector():
     
     def read_table(self, table_name, query='*'):
         data, count = self.supabase.table(table_name).select(query).execute()
-        return pd.DataFrame(data[1])
+        df = pd.DataFrame(data[1])
+        df.columns = [col.replace('\xa0', ' ') for col in df.columns]
+        return df
+
 
     def write_rows(self, data_frame, table_name):
         self.supabase.table(table_name).insert(data_frame).execute()

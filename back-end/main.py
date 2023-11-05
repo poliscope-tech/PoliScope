@@ -1,43 +1,45 @@
-from scraper.legistar_scraper import LegistarScraper
-from scraper.resolutions_scraper import ResolutionsScraper
-from scraper.data_api_scraper import DataAPIScraper
+
+from db.db_manager_supabase import SupabaseConnector
 from processor.llm_processor import LLMProcessor
-from processor.reliability_rating import ReliabilityRating
-from processor.vertical_labeler import VerticalLabeler
-from processor.outcome_extractor import OutcomeExtractor
-from db.db_manager import DBManager
+import os
+import pandas as pd
+
+# Assume that the SUPABASE_URL and SUPABASE_KEY are defined in your environment variables
+supabase_url = os.environ.get("SUPABASE_URL")
+supabase_key = os.environ.get("SUPABASE_KEY")
 
 def main():
-    # Initialize scrapers
-    legistar_scraper = LegistarScraper("https://sfgov.legistar.com/PersonDetail.aspx?ID=36652&GUID=14EFBAA7-E930-4706-BF21-399C01B1F1F6&Search=")
-    resolutions_scraper = ResolutionsScraper("https://sfbos.org/resolutions-2023")
-    data_api_scraper = DataAPIScraper("https://dev.socrata.com/")
+    # Initialize the Supabase connector
+    supabase_connector = SupabaseConnector(supabase_url, supabase_key)
 
-    # Scrape data
-    legistar_data = legistar_scraper.scrape()
-    resolutions_data = resolutions_scraper.scrape()
-    data_api_data = data_api_scraper.scrape()
+    # Read data from the Supabase table
+    table_name = "aaron_peskin"  # Replace with your actual table name
+    data_frame = supabase_connector.read_table(table_name)
 
-    # Initialize processors
-    llm_processor = LLMProcessor(legistar_data)
-    reliability_rating = ReliabilityRating(resolutions_data)
-    vertical_labeler = VerticalLabeler(data_api_data)
-    outcome_extractor = OutcomeExtractor(legistar_data)
+    data_path_name = './data/ingest.csv'
+    data_frame.to_csv(data_path_name, index=False)
 
-    # Process data
-    summary = llm_processor.process()
-    reliability = reliability_rating.calculate()
-    vertical_label = vertical_labeler.label()
-    outcomes = outcome_extractor.extract()
+    # Check if the DataFrame is not empty
+    if not data_frame.empty:
+        # Initialize the LLM Processor with the data from Supabase
+        llm_processor = LLMProcessor(data_path_name)
 
-    # Initialize DB manager
-    db_manager = DBManager("accsf_user", "accsf_user", "acceleranto2!", "localhost")
+        # Assuming that 'agent_prompts/summarizer.txt' contains the necessary prompt to initialize the agent
+        agent_definition_path = './processor/agent_prompts/summarizer.txt'
+        llm_processor.initialize_agent(agent_definition_path)
 
-    # Insert data into DB
-    db_manager.insert_data(summary)
-    db_manager.insert_data(reliability)
-    db_manager.insert_data(vertical_label)
-    db_manager.insert_data(outcomes)
+        # Process the data with the LLM
+        llm_processor.process()
+        # Optional: Do something with the results, e.g., save them to a file or database
+        output_path = './llm_results.csv'
+
+        llm_processor.data.to_csv(output_path, index=False)
+
+    else:
+        print("No data retrieved from the Supabase table.")
+
+# If you want to perform additional processing like extraction, labeling, or rating,
+# you can import and use the other classes from your project structure in a similar manner.
 
 if __name__ == "__main__":
     main()

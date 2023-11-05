@@ -15,7 +15,7 @@ class XLSProcessor:
             # data_frame = pd.read_excel(file_path, engine='xlrd')
             data_frame = pd.read_html(file_path)[0]
             fp_csv = '..' + file_path.split('.')[2] + '.csv' ## NOTE! Only works on subfolder, skipping ../
-            data_frame.to_csv(fp_csv)
+            data_frame.to_csv(fp_csv, index=False)
 
             # You might want to process or clean your data here
             

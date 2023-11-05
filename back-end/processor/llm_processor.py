@@ -58,15 +58,16 @@ class LLMProcessor:
         # print(llm_response)
 
 
-        return {"summary": {}}
+        return self.data
 
+if __name__=='__main__':
 
-test_processor = LLMProcessor('../data/csv/Ahsha_Safai.csv')
-test_processor.initialize_agent('./agent_prompts/summarizer.txt')
+    test_processor = LLMProcessor('../data/csv/Ahsha_Safai.csv')
+    test_processor.initialize_agent('./agent_prompts/summarizer.txt')
 
-test_processor.process()
+    test_processor.process()
 
-## 
+    ## 
 
 
 
