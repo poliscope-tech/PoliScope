@@ -40,8 +40,6 @@ def main():
 
         llm_processor.data.to_csv(output_path, index=False)
 
-
-
     else:
         print("No data retrieved from the Supabase table.")
 
