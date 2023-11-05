@@ -12,7 +12,7 @@ import numpy as np
 
 class LLMProcessor:
     def __init__(self, data):
-        self.data = pd.read_csv(data, nrows=3) ## Testing on 5 rows
+        self.data = pd.read_csv(data) ## Testing on 5 rows
         self.data = self.data.dropna(how='any')
 
     def initialize_agent(self, agent_def_path, model_name="gpt-3.5-turbo"):
@@ -86,6 +86,9 @@ class LLMProcessor:
     def apply_categorizer_agent(self, row):
         return self.run_agent(self.categorizer_agent, row['Title'])
 
+    def apply_categorizer_big_agent(self, row):
+        return self.run_agent(self.categorizer_big_agent, row['Title'])
+
     def apply_scorer_agent(self, row):
         return self.run_agent(self.scorer_agent, row['scorer_field'])
     
@@ -100,19 +103,23 @@ class LLMProcessor:
         return self.data
 
     def process(self):
+
         # Run LLM on combined fields and create summary table
+        self.data['category_big'] = self.data.apply(self.apply_categorizer_big_agent, axis=1)
+        self.data = self.data[self.data['category_big'] =='Housing & Buildings']
+
         # llm_response = self.run_agent(self.agent, self.data['Title'][1])
         self.data['category'] = self.data.apply(self.apply_categorizer_agent, axis=1)
         self.data['summary'] = self.data.apply(self.apply_summarizer_agent, axis=1)
         # print(llm_response)
-
+        
         self.data['scorer_field'] = '"' + self.data['category'] + '"' +  ', ' + '"' + self.data['Vote'] + '"' + ', ' +  '"' + self.data['Title'] +  '"'
 
         ## Apply on all not in 'other' category field
         self.data['score'] = self.data.apply(self.apply_scorer_agent, axis=1)
         self.conditionally_set_null()
 
-        self.data.fillna(value=0)
+        self.data.fillna(value=0.0)
 
         return self.data
 
@@ -122,6 +129,5 @@ if __name__=='__main__':
     test_processor.initialize_agent('./agent_prompts/summarizer.txt')
 
     test_processor.process()
-
 
 

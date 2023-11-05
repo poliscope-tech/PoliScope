@@ -8,8 +8,9 @@ class SupabaseConnector():
         self.supabase = create_client(url, key)
     
     def read_table(self, table_name, query='*'):
-        data, count = self.supabase.table(table_name).select(query).execute()
+        data, count = self.supabase.table(table_name).select(query, count='exact').limit(100000).execute()
         print('Pulled of size', count)
+        breakpoint()
         df = pd.DataFrame(data[1])
         df.columns = [col.replace('\xa0', ' ') for col in df.columns]
         return df
