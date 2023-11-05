@@ -19,3 +19,12 @@ curl 'https://hxrggsnimtifedjvpupp.supabase.co/rest/v1/politicians?select=*' \
 -H "apikey: SUPABASE_KEY" \
 -H "Authorization: Bearer SUPABASE_KEY"
 ```
+
+/GET all positions
+```
+curl 'https://hxrggsnimtifedjvpupp.supabase.co/rest/v1/positions?select=*' \
+-H "apikey: SUPABASE_KEY" \
+-H "Authorization: Bearer SUPABASE_KEY"
+```
+
+You view the [database](https://supabase.com/dashboard/project/hxrggsnimtifedjvpupp/editor/28659) to see the shape of ecah of the responses
