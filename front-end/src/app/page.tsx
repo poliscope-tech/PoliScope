@@ -91,7 +91,7 @@ export default function FeedPage() {
       <Avatars /> {/* Add the Avatars component inside the Layout */}
       {llmResults.map((result: any) => (
         <Article id={result} date={new Date(result.actionDate)} key={result.id}>
-          <h2>{result.title}</h2>
+          <h2>{result.summary}</h2>
           <p>{result.meetingBody}</p>
           <BarChart result={result} />
         </Article>
