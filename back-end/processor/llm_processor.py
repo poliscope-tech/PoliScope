@@ -65,8 +65,6 @@ class LLMProcessor:
 
         self.data['scorer_field'] = '"' + self.data['category'] + '"' +  ', ' + '"' + self.data['Vote'] + '"' + ', ' +  '"' + self.data['Title'] +  '"'
 
-        breakpoint()
-
         ## Apply on all not in 'other' category field
         self.data['score'] = self.data.apply(self.apply_scorer_agent, axis=1)
 
