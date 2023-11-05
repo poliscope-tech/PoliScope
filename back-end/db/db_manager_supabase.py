@@ -21,5 +21,5 @@ class SupabaseConnector():
 if __name__=='__main__':
     supa = SupabaseConnector(os.environ.get("SUPABASE_URL"), os.environ.get("SUPABASE_KEY"))
 
-    df = supa.read_table('aaron_peskin')
+    df = supa.read_table('politicians')
 
