@@ -1,3 +1,4 @@
+import React from 'react'
 import { useId } from 'react'
 
 import { StarField } from '@/components/StarField'
@@ -81,6 +82,31 @@ function FixedSidebar({
         <div className="mx-auto max-w-lg lg:mx-0 lg:flex lg:w-96 lg:max-w-none lg:flex-col lg:before:flex-1 lg:before:pt-6">
           <div className="pb-16 pt-20 sm:pb-20 sm:pt-32 lg:py-20">
             <div className="relative">
+              <div
+                className="absolute left-1/3 top-0 flex -translate-x-1/3 transform space-x-12"
+                style={{ marginTop: '-7rem' }} // Adjusted for vertical spacing
+              >
+                <img
+                  src="/images/avatar1.jpeg"
+                  alt="Avatar 1"
+                  className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg" // changed from object-cover to object-contain
+                />
+                <img
+                  src="/images/avatar2.jpeg"
+                  alt="Avatar 2"
+                  className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
+                />
+                <img
+                  src="/images/avatar3.jpeg"
+                  alt="Avatar 3"
+                  className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
+                />
+                <img
+                  src="/images/avatar4.jpeg"
+                  alt="Avatar 4"
+                  className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
+                />
+              </div>
               <StarField className="-right-44 top-14" />
               {main}
             </div>
