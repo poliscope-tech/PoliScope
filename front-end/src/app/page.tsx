@@ -5,9 +5,23 @@ import { Article } from '@/components/mdx'
 import { Bar } from 'react-chartjs-2'
 import { CategoryScale, Chart, registerables } from 'chart.js'
 import { llmResults } from '../../data/llm-results'
+import clsx from 'clsx'
 
 Chart.register(CategoryScale)
 Chart.register(...registerables)
+
+
+function BarWrapper({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<'div'>) {
+  return (
+    <div 
+    style={{ marginLeft: '50%', position: "sticky", bottom: "0"}}
+    {...props} />
+  )
+}
+
 
 const BarChart = ({ result }: { result: any }) => {
   const data = {
@@ -61,11 +75,17 @@ export default function FeedPage() {
   return (
     <Layout>
       {llmResults.map((result: any) => (
-        <Article id={result} date={new Date(result.actionDate)} key={result.id}>
-          <h2>{result.title}</h2>
-          <p>{result.meetingBody}</p>
-          <BarChart result={result} />
-        </Article>
+        <div>
+          <Article id={result} date={new Date(result.actionDate)} key={result.id}>
+            <div>
+              <h2>{result.title}</h2>
+              <p>{result.meetingBody}</p>
+            </div>            
+          </Article>
+          <BarWrapper>
+              <BarChart result={result} />
+          </BarWrapper>
+        </div>
       ))}
     </Layout>
   )
