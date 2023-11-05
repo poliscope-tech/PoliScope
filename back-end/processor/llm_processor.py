@@ -10,10 +10,8 @@ import pandas as pd
 import numpy as np
 
 class LLMProcessor:
-    def __init__(self, data, summarizer_agent_path='', scorer_agent_path=''):
+    def __init__(self, data):
         self.data = pd.read_csv(data, nrows=5) ## Testing on 5 rows
-        self.summarizer_agent = self.initialize_agent(summarizer_agent_path)
-        self.scorer_agent = self.initialize_agent(scorer_agent_path)
 
     def initialize_agent(self, agent_def_path):
         """Initialize the agent and return it."""
@@ -44,6 +42,7 @@ class LLMProcessor:
         )
 
         self.agent = chat_llm_chain
+        return self.agent
     
     def run_agent(self, agent, human_input):
         """Run the provided agent using the input and return the result."""
@@ -54,24 +53,22 @@ class LLMProcessor:
         return self.run_agent(self.summarizer_agent, row['Title'])
     
     def apply_scorer_agent(self, row):
-        return self.run_agent(self.scorer_agent, row['Title'])
+        return self.run_agent(self.scorer_agent, row['scorer_field'])
 
     def process(self):
         # Run LLM on combined fields and create summary table
         # This is a placeholder, update with actual processing logic
-
         ## Change to apply
         # llm_response = self.run_agent(self.agent, self.data['Title'][1])
-        self.data['category'] = self.data.apply(self.apply_run_agent, axis=1)
+        self.data['category'] = self.data.apply(self.apply_summarizer_agent, axis=1)
         # print(llm_response)
 
-        # self.data['scorer_field'] = 
+        self.data['scorer_field'] = '"' + self.data['category'] + '"' +  ', ' + '"' + self.data['Vote'] + '"' + ', ' +  '"' + self.data['Title'] +  '"'
+
+        breakpoint()
 
         ## Apply on all not in 'other' category field
-        self.data['category'] = self.data.apply(self.apply_run_agent, axis=1)
-
-        ## Add scoring
-
+        self.data['score'] = self.data.apply(self.apply_scorer_agent, axis=1)
 
         ## Placeholder scorings
         self.data['affordable_housing_development_score'] = self.data.apply(lambda x: np.random.randint(1, 10)/10.0, axis=1)

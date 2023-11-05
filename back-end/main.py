@@ -24,7 +24,9 @@ def main():
         # Initialize the LLM Processor with the data from Supabase
         summarizer_agent_path = './processor/agent_prompts/summarizer.txt'
         scorer_agent_path = './processor/agent_prompts/scorer.txt'
-        llm_processor = LLMProcessor(data_path_name, summarizer_agent_path, scorer_agent_path)
+        llm_processor = LLMProcessor(data_path_name)
+        llm_processor.summarizer_agent = llm_processor.initialize_agent(summarizer_agent_path)
+        llm_processor.scorer_agent = llm_processor.initialize_agent(scorer_agent_path)
 
         # Process the data with the LLM
         llm_processor.process()
