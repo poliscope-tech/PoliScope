@@ -18,11 +18,11 @@ const BarChart = ({ ordinance }: { ordinance: IOrdinance }) => {
       {
         label: 'Score',
         data: [
-          ordinance.affordable_housing_development_score,
-          ordinance.tenant_protections_score,
-          ordinance.homelessness_and_supportive_housing_score,
-          ordinance.faster_permitting_process_and_bureaucracy_score,
-          ordinance.land_use_and_zoning_reform,
+          ordinance.acc_affordable_housing_development_score,
+          ordinance.acc_tenant_protections_score,
+          ordinance.acc_homelessness_and_supportive_housing_score,
+          ordinance.acc_faster_permitting_process_and_bureaucracy_score,
+          ordinance.acc_land_use_and_zoning_reform,
         ],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
@@ -71,7 +71,6 @@ export function FixedSidebar({
   currentOrdinance: IOrdinance
   footer?: React.ReactNode
 }) {
-  console.log({ currentOrdinance })
   return (
     <div className="relative flex-none overflow-hidden px-6 lg:pointer-events-none lg:fixed lg:inset-0 lg:z-40 lg:flex lg:px-0">
       <Glow />

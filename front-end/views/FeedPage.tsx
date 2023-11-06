@@ -39,7 +39,7 @@ export const FeedPage = ({ ordinances }: { ordinances: IOrdinance[] }) => {
         <main className="space-y-20 py-20 sm:space-y-32 sm:py-32">
           {ordinances.map((ordinance: any, index: number) => (
             <Ordinance
-              key={ordinance.id}
+              key={ordinance['ID']}
               ordinance={ordinance}
               isActive={index === activeIndex}
             />
