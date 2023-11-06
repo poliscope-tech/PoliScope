@@ -21,7 +21,7 @@ async function getData() {
 
 export default async function Page() {
   const data = await getData()
-  const acc: IOrdinance = {
+  const acc: Partial<IOrdinance> = {
     acc_affordable_housing_development_score: 0,
     acc_tenant_protections_score: 0,
     acc_homelessness_and_supportive_housing_score: 0,
@@ -42,21 +42,21 @@ export default async function Page() {
       land_use_and_zoning_reform: _in.land_use_and_zoning_reform,
 
       acc_affordable_housing_development_score:
-        (acc.acc_affordable_housing_development_score +=
+        (acc.acc_affordable_housing_development_score! +=
           Number(_in.affordable_housing_development_score) || 0),
 
-      acc_tenant_protections_score: (acc.acc_tenant_protections_score +=
+      acc_tenant_protections_score: (acc.acc_tenant_protections_score! +=
         Number(acc.tenant_protections_score) || 0),
 
       acc_homelessness_and_supportive_housing_score:
-        (acc.acc_homelessness_and_supportive_housing_score +=
+        (acc.acc_homelessness_and_supportive_housing_score! +=
           Number(_in.homelessness_and_supportive_housing_score) || 0),
 
       acc_faster_permitting_process_and_bureaucracy_score:
-        (acc.acc_faster_permitting_process_and_bureaucracy_score +=
+        (acc.acc_faster_permitting_process_and_bureaucracy_score! +=
           Number(_in.faster_permitting_process_and_bureaucracy_score) || 0),
 
-      acc_land_use_and_zoning_reform: (acc.acc_land_use_and_zoning_reform +=
+      acc_land_use_and_zoning_reform: (acc.acc_land_use_and_zoning_reform! +=
         Number(_in.land_use_and_zoning_reform) || 0),
     }
     // acc.acc_land_use_and_zoning_reform = acc.acc
