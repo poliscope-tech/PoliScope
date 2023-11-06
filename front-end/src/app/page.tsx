@@ -28,7 +28,7 @@ export default async function Page() {
     acc_faster_permitting_process_and_bureaucracy_score: 0,
     acc_land_use_and_zoning_reform: 0,
   }
-  console.log('get augmented data')
+
   const augmentedData = data.map((_in: IOrdinance) => {
     const val = {
       ..._in,
