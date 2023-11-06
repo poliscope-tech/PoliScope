@@ -1,6 +1,5 @@
-import { Layout } from '@/components/Layout'
-import { Ordinance } from '@/components/Ordinance'
 import { IOrdinance } from '@/types'
+import { FeedPage } from '../../views/FeedPage'
 
 async function getData() {
   const options = {
@@ -10,7 +9,7 @@ async function getData() {
     },
   }
 
-  const url = process.env.SUPABASE_URL! + '/rest/v1/politicians'
+  const url = process.env.SUPABASE_URL! + '/rest/v1/llm_results'
   const res = await fetch(url, options)
 
   if (!res.ok) {
@@ -20,24 +19,48 @@ async function getData() {
   return res.json()
 }
 
-export default async function FeedPage() {
+export default async function Page() {
   const data = await getData()
-  console.log(data.slice(0, 20))
+  const acc: Partial<IOrdinance> = {
+    acc_affordable_housing_development_score: 0,
+    acc_tenant_protections_score: 0,
+    acc_homelessness_and_supportive_housing_score: 0,
+    acc_faster_permitting_process_and_bureaucracy_score: 0,
+    acc_land_use_and_zoning_reform: 0,
+  }
+  console.log('get augmented data')
   const augmentedData = data.map((_in: IOrdinance) => {
-    return {
+    const val = {
       ..._in,
-      affordable_housing_development_score: Math.random(),
-      tenant_protections_score: Math.random(),
-      homelessness_and_supportive_housing_score: Math.random(),
-      faster_permitting_process_and_bureaucracy_score: Math.random(),
-      land_use_and_zoning_reform: Math.random(),
+      affordable_housing_development_score:
+        _in.affordable_housing_development_score,
+      tenant_protections_score: _in.tenant_protections_score,
+      homelessness_and_supportive_housing_score:
+        _in.homelessness_and_supportive_housing_score,
+      faster_permitting_process_and_bureaucracy_score:
+        _in.faster_permitting_process_and_bureaucracy_score,
+      land_use_and_zoning_reform: _in.land_use_and_zoning_reform,
+
+      acc_affordable_housing_development_score:
+        (acc.acc_affordable_housing_development_score! +=
+          Number(_in.affordable_housing_development_score) || 0),
+
+      acc_tenant_protections_score: (acc.acc_tenant_protections_score! +=
+        Number(acc.tenant_protections_score) || 0),
+
+      acc_homelessness_and_supportive_housing_score:
+        (acc.acc_homelessness_and_supportive_housing_score! +=
+          Number(_in.homelessness_and_supportive_housing_score) || 0),
+
+      acc_faster_permitting_process_and_bureaucracy_score:
+        (acc.acc_faster_permitting_process_and_bureaucracy_score! +=
+          Number(_in.faster_permitting_process_and_bureaucracy_score) || 0),
+
+      acc_land_use_and_zoning_reform: (acc.acc_land_use_and_zoning_reform! +=
+        Number(_in.land_use_and_zoning_reform) || 0),
     }
+    // acc.acc_land_use_and_zoning_reform = acc.acc
+    return val
   })
-  return (
-    <Layout>
-      {augmentedData.slice(0, 50).map((ordinance: any) => (
-        <Ordinance key={ordinance.id} ordinance={ordinance} />
-      ))}
-    </Layout>
-  )
+  return <FeedPage ordinances={augmentedData} />
 }
