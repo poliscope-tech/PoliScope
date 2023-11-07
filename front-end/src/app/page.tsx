@@ -19,6 +19,33 @@ async function getData() {
   return res.json()
 }
 
+const Avatars = () => {
+  return (
+    <div className="absolute right-0 top-0 mr-5 mt-10 flex space-x-4">
+      <img
+        src="/images/health.png"
+        alt="Healthcare Avatar"
+        className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
+      />
+      <img
+        src="/images/educ.png"
+        alt="Education Avatar"
+        className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
+      />
+      <img
+        src="/images/house.png"
+        alt="Housing Avatar"
+        className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
+      />
+      <img
+        src="/images/envir.png"
+        alt="Environment Avatar"
+        className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
+      />
+    </div>
+  )
+}
+
 export default async function Page() {
   const data = await getData()
   const acc: Partial<IOrdinance> = {
@@ -62,5 +89,10 @@ export default async function Page() {
     // acc.acc_land_use_and_zoning_reform = acc.acc
     return val
   })
-  return <FeedPage ordinances={augmentedData} />
+  return (
+    <>
+      <Avatars /> {/* Here we add the Avatars component */}
+      <FeedPage ordinances={augmentedData} />
+    </>
+  )
 }
