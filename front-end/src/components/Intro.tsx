@@ -13,7 +13,6 @@ export function Intro() {
         authored a law for tenant legal representation. He champions community
         engagement, supports small businesses, and seeks systemic change.
       </p>
-      {/* Removed Sign Up Form and Icon Links */}
     </>
   )
 }
