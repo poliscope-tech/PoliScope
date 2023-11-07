@@ -9,24 +9,26 @@ import { useCallback, useEffect, useState } from 'react'
 
 const Avatars = () => {
   return (
-    <div className="flex space-x-4">
+    // Use 'flex-row' for a horizontal layout, 'justify-center' to center the items horizontally,
+    // 'space-x-4' to space out the avatars horizontally, and 'pt-4' for some padding at the top.
+    <div className="flex flex-row justify-center space-x-4 pt-4">
       <img
-        src="/images/avatar1.jpeg" // Correct image path for Avatar 1
+        src="/images/avatar1.jpeg"
         alt="Avatar 1"
         className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
       />
       <img
-        src="/images/avatar2.jpeg" // Correct image path for Avatar 2
+        src="/images/avatar2.jpeg"
         alt="Avatar 2"
         className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
       />
       <img
-        src="/images/avatar3.jpeg" // Correct image path for Avatar 3
+        src="/images/avatar3.jpeg"
         alt="Avatar 3"
         className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
       />
       <img
-        src="/images/avatar4.jpeg" // Correct image path for Avatar 4
+        src="/images/avatar4.jpeg"
         alt="Avatar 4"
         className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
       />
