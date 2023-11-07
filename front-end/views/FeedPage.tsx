@@ -7,28 +7,27 @@ import { Timeline } from '@/components/Timeline'
 import { Ordinance } from '@/components/Ordinance'
 import { useCallback, useEffect, useState } from 'react'
 
-// Import the Avatars component or define it here
 const Avatars = () => {
   return (
     <div className="flex space-x-4">
       <img
-        src="/images/health.png" // updated image path for health
-        alt="Healthcare Avatar"
+        src="/images/avatar1.jpeg" // Correct image path for Avatar 1
+        alt="Avatar 1"
         className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
       />
       <img
-        src="/images/educ.png" // updated image path for education
-        alt="Education Avatar"
+        src="/images/avatar2.jpeg" // Correct image path for Avatar 2
+        alt="Avatar 2"
         className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
       />
       <img
-        src="/images/house.png" // updated image path for housing
-        alt="Housing Avatar"
+        src="/images/avatar3.jpeg" // Correct image path for Avatar 3
+        alt="Avatar 3"
         className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
       />
       <img
-        src="/images/envir.png" // updated image path for environment
-        alt="Environment Avatar"
+        src="/images/avatar4.jpeg" // Correct image path for Avatar 4
+        alt="Avatar 4"
         className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
       />
     </div>
