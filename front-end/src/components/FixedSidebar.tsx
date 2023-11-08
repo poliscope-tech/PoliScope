@@ -44,21 +44,41 @@ const BarChart = ({ ordinance }: { ordinance: IOrdinance }) => {
       },
     ],
   }
+  const options = {
+    maintainAspectRatio: false,
+    scales: {
+      x: {
+        ticks: {
+          font: {
+            size: 14, // Adjust this value to increase the font size
+          },
+        },
+      },
+      y: {
+        ticks: {
+          // Include y-axis tick configuration if needed
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        labels: {
+          font: {
+            size: 14, // Adjust this value to increase the font size of the legend labels
+          },
+        },
+      },
+    },
+    // ... any other options you have set
+  }
 
   return (
-    <>
-      <div className="max-h-72">
-        <Bar
-          ref={chartRef}
-          data={data}
-          width={400}
-          height={200}
-          options={{
-            maintainAspectRatio: false,
-          }}
-        />
-      </div>
-    </>
+    // Adjust the height style of the container div
+    <div style={{ height: '350px' }}>
+      {' '}
+      {/* Increase the height as needed */}
+      <Bar ref={chartRef} data={data} options={options} />
+    </div>
   )
 }
 
