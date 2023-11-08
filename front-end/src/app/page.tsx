@@ -96,10 +96,12 @@ export default async function Page() {
 
   return (
     <>
-      <Avatars /> {/* Avatars with a solid background and higher z-index */}
-      {/* The main content with a lower z-index to allow it to slide under the Avatars */}
-      <div className="relative z-0 pt-5">
-        <FeedPage ordinances={augmentedData} />
+      <div className="">
+        <Avatars /> {/* Avatars with a solid background and higher z-index */}
+        {/* The main content with a lower z-index to allow it to slide under the Avatars */}
+        <div className="relative z-0 pt-5">
+          <FeedPage ordinances={augmentedData} />
+        </div>
       </div>
     </>
   )

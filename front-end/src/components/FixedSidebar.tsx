@@ -75,17 +75,24 @@ export function FixedSidebar({
     <div className="relative flex-none overflow-hidden px-6 lg:pointer-events-none lg:fixed lg:inset-0 lg:z-40 lg:flex lg:px-0">
       <Glow />
       <div className="relative flex w-full lg:pointer-events-auto lg:mr-[calc(max(2rem,50%-38rem)+40rem)] lg:min-w-[32rem] lg:overflow-y-auto lg:overflow-x-hidden lg:pl-[max(4rem,calc(50%-38rem))]">
-        <div className="mx-auto max-w-lg lg:mx-0 lg:flex lg:w-96 lg:max-w-none lg:flex-col lg:before:flex-1 lg:before:pt-6">
-          <div className="pb-16 pt-20 sm:pb-20 sm:pt-32 lg:py-20">
+        <div className="mx-auto max-w-lg lg:mx-0 lg:flex lg:w-96 lg:max-w-none lg:flex-col lg:before:flex-1">
+          <div className="pb-4 pt-4 sm:pb-8 sm:pt-8 lg:py-4">
+            {' '}
+            {/* Reduced padding */}
             <div className="relative">
               <StarField className="-right-44 top-14" />
               {main}
+            </div>
+            {/* Optionally, you can add a margin-top to the BarChart directly to further adjust its position */}
+            <div className="mt-4">
+              {' '}
+              {/* Adjust this value as needed */}
+              <BarChart ordinance={currentOrdinance} />
             </div>
           </div>
           <div className="flex flex-1 items-end justify-center pb-4 lg:justify-start lg:pb-6">
             {footer}
           </div>
-          <BarChart ordinance={currentOrdinance} />
         </div>
       </div>
     </div>

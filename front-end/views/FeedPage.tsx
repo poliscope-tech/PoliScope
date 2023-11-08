@@ -13,7 +13,7 @@ const Avatars = () => {
   return (
     // Use 'flex-row' for a horizontal layout, 'justify-center' to center the items horizontally,
     // 'space-x-4' to space out the avatars horizontally, and 'pt-4' for some padding at the top.
-    <div className="flex flex-row justify-center space-x-4 pt-4">
+    <div className="flex flex-row justify-center space-x-4">
       <img
         src="/images/avatar1.jpeg"
         alt="Avatar 1"
