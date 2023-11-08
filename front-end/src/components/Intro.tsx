@@ -1,7 +1,7 @@
 export function Intro() {
   return (
     <>
-      <h1 className="tight mt-14 font-display text-4xl font-light text-white">
+      <h1 className="tight mt-10 font-display text-4xl font-light text-white">
         <span className="text-sky-300">Board of Supervisors</span>
         <br />
         Dean Preston <br />

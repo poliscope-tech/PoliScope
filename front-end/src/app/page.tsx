@@ -1,6 +1,8 @@
 import { IOrdinance } from '@/types'
 import { FeedPage } from '../../views/FeedPage'
 
+//RIGHT SIDE OF PAGE
+
 async function getData() {
   const options = {
     headers: {
@@ -21,27 +23,29 @@ async function getData() {
 
 const Avatars = () => {
   return (
-    <div className="fixed right-40 top-0 mr-2 mt-8 flex space-x-6">
-      <img
-        src="/images/health.png"
-        alt="Healthcare Avatar"
-        className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
-      />
-      <img
-        src="/images/educ.png"
-        alt="Education Avatar"
-        className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
-      />
-      <img
-        src="/images/house.png"
-        alt="Housing Avatar"
-        className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
-      />
-      <img
-        src="/images/envir.png"
-        alt="Environment Avatar"
-        className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
-      />
+    <div className="absolute right-40 top-0 z-50 flex items-start justify-end">
+      <div className="mr-2 mt-8 flex space-x-6 p-4 shadow-lg">
+        <img
+          src="/images/health.png"
+          alt="Healthcare Avatar"
+          className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
+        />
+        <img
+          src="/images/educ.png"
+          alt="Education Avatar"
+          className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
+        />
+        <img
+          src="/images/house.png"
+          alt="Housing Avatar"
+          className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
+        />
+        <img
+          src="/images/envir.png"
+          alt="Environment Avatar"
+          className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
+        />
+      </div>
     </div>
   )
 }
@@ -89,10 +93,14 @@ export default async function Page() {
     // acc.acc_land_use_and_zoning_reform = acc.acc
     return val
   })
+
   return (
     <>
-      <Avatars /> {/* Here we add the Avatars component */}
-      <FeedPage ordinances={augmentedData} />
+      <Avatars /> {/* Avatars with a solid background and higher z-index */}
+      {/* The main content with a lower z-index to allow it to slide under the Avatars */}
+      <div className="relative z-0 pt-5">
+        <FeedPage ordinances={augmentedData} />
+      </div>
     </>
   )
 }
