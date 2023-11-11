@@ -73,7 +73,7 @@ const BarChart = ({ ordinance }: { ordinance: IOrdinance }) => {
   }
 
   return (
-    // Adjust the height style of the container div
+    // Adjust the height of the CHART
     <div style={{ height: '350px' }}>
       {' '}
       {/* Increase the height as needed */}

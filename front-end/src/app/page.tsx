@@ -3,6 +3,7 @@ import { FeedPage } from '../../views/FeedPage'
 
 //RIGHT SIDE OF PAGE
 
+//API SECTION
 async function getData() {
   const options = {
     headers: {
@@ -20,6 +21,8 @@ async function getData() {
 
   return res.json()
 }
+
+//END OF API CODE
 
 const Avatars = () => {
   return (
