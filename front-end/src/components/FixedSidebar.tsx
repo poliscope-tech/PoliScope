@@ -109,8 +109,7 @@ const BarChart = ({ ordinance, onScrollToBottom }: BarChartProps) => {
   return (
     <div style={{ height: '350px' }} className="bar-chart-container">
       <Bar ref={chartRef} data={data} options={options} />
-      <Avatars2 onScrollToBottom={onScrollToBottom} /> // Pass the function to
-      Avatars2
+      <Avatars2 onScrollToBottom={onScrollToBottom} />
     </div>
   )
 }
