@@ -25,8 +25,18 @@ const Avatars = () => {
 
 export const FeedPage = ({ ordinances }: { ordinances: IOrdinance[] }) => {
   const [currentOrdinance, setCurrentOrdinance] = useState<IOrdinance>(
-    ordinances[0],
+    ordinances[0] ?? defaultOrdinance,
   )
+
+  // Default ordinance with values set to "0"
+  const defaultOrdinance: Partial<IOrdinance> = {
+    acc_affordable_housing_development_score: 0,
+    acc_tenant_protections_score: 0,
+    acc_homelessness_and_supportive_housing_score: 0,
+    acc_faster_permitting_process_and_bureaucracy_score: 0,
+    acc_land_use_and_zoning_reform: 0,
+    // Add other properties as needed with default value "0"
+  }
 
   const [activeIndex, setActiveIndex] = useState(0)
 
@@ -35,7 +45,7 @@ export const FeedPage = ({ ordinances }: { ordinances: IOrdinance[] }) => {
     const newIndex = Math.round(position / 300)
     if (activeIndex !== newIndex) {
       setActiveIndex(newIndex)
-      setCurrentOrdinance(ordinances[newIndex])
+      setCurrentOrdinance(ordinances[newIndex] ?? defaultOrdinance)
     }
   }, [activeIndex, ordinances])
 
@@ -47,7 +57,6 @@ export const FeedPage = ({ ordinances }: { ordinances: IOrdinance[] }) => {
     }
   }, [handleScroll])
 
-  // Integrate Avatars within the FixedSidebar through the 'main' prop
   return (
     <>
       <FixedSidebar
@@ -62,13 +71,17 @@ export const FeedPage = ({ ordinances }: { ordinances: IOrdinance[] }) => {
       <div className="relative flex-auto">
         <Timeline />
         <main className="">
-          {ordinances.map((ordinance, index) => (
-            <Ordinance
-              key={ordinance.ID}
-              ordinance={ordinance}
-              isActive={index === activeIndex}
-            />
-          ))}
+          {ordinances.length > 0 ? (
+            ordinances.map((ordinance, index) => (
+              <Ordinance
+                key={ordinance?.ID ?? index}
+                ordinance={ordinance ?? defaultOrdinance}
+                isActive={index === activeIndex}
+              />
+            ))
+          ) : (
+            <div>Loading...</div> // Placeholder for empty or loading data
+          )}
         </main>
       </div>
     </>
