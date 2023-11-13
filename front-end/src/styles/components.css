@@ -29,9 +29,9 @@
     background-color: transparent;
     border: none;
     color: white;
-    font-size: 24px; /* Adjust size as needed */
+    font-size: 32px; /* Adjust size as needed */
     cursor: pointer;
-    /* Add additional styling as needed */
+    margin-left: 70px !important; /* Increase specificity */
 
   }
   
