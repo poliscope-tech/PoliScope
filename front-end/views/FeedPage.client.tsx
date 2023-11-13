@@ -1,5 +1,7 @@
 // FeedPage.client.tsx
-import React, { useState, useEffect } from 'react'
+'use client'
+
+import React, { useState, useEffect, useCallback } from 'react'
 import { FixedSidebar } from '@/components/FixedSidebar'
 import { IOrdinance } from '@/types/IOrdinance'
 import { Intro } from '@/components/Intro'
@@ -8,18 +10,8 @@ import { Ordinance } from '@/components/Ordinance'
 
 // API fetch function
 async function fetchData(avatarId) {
-  // Define the base URL or modify as needed based on the selected avatar
-  let url = `${process.env.SUPABASE_URL}/rest/v1/` // Base URL
-  switch (avatarId) {
-    case 'avatar1':
-      url += 'llm_results_avatar1' // Example endpoint for Avatar 1
-      break
-    case 'avatar2':
-      url += 'llm_results_avatar2' // Example endpoint for Avatar 2
-      break
-    // Add cases for other avatars as necessary
-  }
-
+  // This URL will need to be updated to reflect your actual API endpoints
+  const url = `${process.env.SUPABASE_URL}/rest/v1/llm_results?avatar=${avatarId}`
   const options = {
     headers: {
       'Content-Type': 'application/json',
@@ -29,58 +21,62 @@ async function fetchData(avatarId) {
 
   const response = await fetch(url, options)
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch data for ${avatarId}: ${response.statusText}`,
-    )
+    throw new Error(`Failed to fetch data: ${response.statusText}`)
   }
 
   return response.json()
 }
 
-//LEFT SIDE OF PAGE
-// Avatars component inside FeedPage.tsx
+// Avatars component
 const Avatars = ({ onAvatarClick }) => {
   return (
     <div className="flex flex-row justify-center space-x-6 pt-4">
-      <button onClick={() => onAvatarClick('avatar1')} className="avatar">
-        <img src="/images/avatar1.jpeg" alt="Dean Preston" />
-      </button>
-      <button onClick={() => onAvatarClick('avatar2')} className="avatar">
-        <img src="/images/avatar2.jpeg" alt="Avatar 2" />
-      </button>
-      <button onClick={() => onAvatarClick('avatar3')} className="avatar">
-        <img src="/images/avatar3.jpeg" alt="Avatar 3" />
-      </button>
-      <button onClick={() => onAvatarClick('avatar4')} className="avatar">
-        <img src="/images/avatar4.jpeg" alt="Avatar 4" />
-      </button>
+      {/* Add onClick event handlers to call onAvatarClick with the respective avatar ID */}
+      <img
+        src="/images/avatar1.jpeg"
+        alt="Dean Preston"
+        className="avatar avatar-selected"
+        onClick={() => onAvatarClick('avatar1')}
+      />
+      {/* Repeat for other avatars */}
+      {/* ... */}
     </div>
   )
 }
 
 export const FeedPage = ({ initialOrdinances }) => {
-  const [ordinances, setOrdinances] = useState(initialOrdinances)
-  const [currentOrdinance, setCurrentOrdinance] = useState(initialOrdinances[0])
+  // Provide an initial empty array as a fallback if initialOrdinances is undefined
+  const [ordinances, setOrdinances] = useState(initialOrdinances || [])
+  // Use the first item of the ordinances array or a fallback empty object
+  const [currentOrdinance, setCurrentOrdinance] = useState(ordinances[0] || {})
   const [activeIndex, setActiveIndex] = useState(0)
-  const [selectedAvatar, setSelectedAvatar] = useState('avatar1') // Default to Avatar 1
 
-  useEffect(() => {
-    // Fetch data initially for Avatar 1 and whenever an avatar is selected
-    const fetchInitialData = async () => {
-      const newData = await fetchData(selectedAvatar)
+  const handleAvatarClick = useCallback(async (avatarId) => {
+    try {
+      const newData = await fetchData(avatarId)
       setOrdinances(newData)
       setCurrentOrdinance(newData[0])
+      setActiveIndex(0) // Reset to the first item if necessary
+    } catch (error) {
+      console.error(error)
+      // Handle error state appropriately
     }
+  }, [])
 
-    fetchInitialData()
-  }, [selectedAvatar])
+  // Load data for Avatar1 initially
+  useEffect(() => {
+    handleAvatarClick('avatar1')
+  }, [handleAvatarClick])
 
-  // Scroll event handler logic here (not provided)
-  const handleScroll = () => {
-    // Your scroll handling logic to update activeIndex and currentOrdinance
-  }
+  const handleScroll = useCallback(() => {
+    const position = window.pageYOffset
+    const newIndex = Math.round(position / 300)
+    if (activeIndex !== newIndex && ordinances[newIndex]) {
+      setActiveIndex(newIndex)
+      setCurrentOrdinance(ordinances[newIndex])
+    }
+  }, [activeIndex, ordinances])
 
-  // Register and clean up the scroll event listener
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true })
 
@@ -88,14 +84,26 @@ export const FeedPage = ({ initialOrdinances }) => {
       window.removeEventListener('scroll', handleScroll)
     }
   }, [handleScroll])
+  // Ensure that ordinances have data before attempting to map over them
+  const ordinanceElements =
+    ordinances.length > 0 ? (
+      ordinances.map((ordinance, index) => (
+        <Ordinance
+          key={ordinance.ID}
+          ordinance={ordinance}
+          isActive={index === activeIndex}
+        />
+      ))
+    ) : (
+      <div>No data available</div> // Or some other placeholder content
+    )
 
-  // Integrate Avatars within the FixedSidebar through the 'main' prop
   return (
     <>
       <FixedSidebar
         main={
           <>
-            <Avatars />
+            <Avatars onAvatarClick={handleAvatarClick} />
             <Intro />
           </>
         }
@@ -103,15 +111,7 @@ export const FeedPage = ({ initialOrdinances }) => {
       />
       <div className="relative flex-auto">
         <Timeline />
-        <main className="">
-          {ordinances.map((ordinance, index) => (
-            <Ordinance
-              key={ordinance.ID}
-              ordinance={ordinance}
-              isActive={index === activeIndex}
-            />
-          ))}
-        </main>
+        <main className="">{ordinanceElements}</main>
       </div>
     </>
   )
