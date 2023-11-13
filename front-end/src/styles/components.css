@@ -1,2 +1,27 @@
 @import './typography.css';
 @tailwind components;
+
+.avatar {
+    height: 4rem; /* 64px */
+    width: 4rem; /* 64px */
+    border-radius: 50%;
+    border: 2px solid white;
+    object-fit: contain;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+  }
+  
+  .avatar:hover {
+    transform: scale(1.1); /* Slightly increase the size */
+  }
+
+  .avatar-selected {
+    border: 2px solid #4A90E2; /* Example blue color for selection */
+    box-shadow: 0 0 20px rgba(74, 144, 226, 0.5); /* Soft glow effect */
+  }
+  
+  .avatar-selected-green {
+    border: 2px solid #2ECC71; /* Green color for selection */
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.5); /* Soft green glow effect */
+  }
+  

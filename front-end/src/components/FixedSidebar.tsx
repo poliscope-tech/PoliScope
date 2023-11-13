@@ -19,22 +19,18 @@ const Avatars2 = () => {
         <img
           src="/images/health.png"
           alt="Healthcare Avatar"
-          className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
+          className="avatar"
         />
-        <img
-          src="/images/educ.png"
-          alt="Education Avatar"
-          className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
-        />
+        <img src="/images/educ.png" alt="Education Avatar" className="avatar" />
         <img
           src="/images/house.png"
-          alt="Housing Avatar"
-          className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
+          alt="Housing"
+          className="avatar avatar-selected-green" // Apply green selected styles to Housing
         />
         <img
           src="/images/envir.png"
           alt="Environment Avatar"
-          className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
+          className="avatar"
         />
       </div>
     </div>

@@ -10,29 +10,15 @@ import { useCallback, useEffect, useState } from 'react'
 //LEFT SIDE OF PAGE
 const Avatars = () => {
   return (
-    // Use 'flex-row' for a horizontal layout, 'justify-center' to center the items horizontally,
-    // 'space-x-4' to space out the avatars horizontally, and 'pt-4' for some padding at the top.
-    <div className="flex flex-row justify-center space-x-6">
+    <div className="flex flex-row justify-center space-x-6 pt-4">
       <img
         src="/images/avatar1.jpeg"
-        alt="Avatar 1"
-        className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
+        alt="Dean Preston"
+        className="avatar avatar-selected" // Apply selected styles to Dean Preston
       />
-      <img
-        src="/images/avatar2.jpeg"
-        alt="Avatar 2"
-        className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
-      />
-      <img
-        src="/images/avatar3.jpeg"
-        alt="Avatar 3"
-        className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
-      />
-      <img
-        src="/images/avatar4.jpeg"
-        alt="Avatar 4"
-        className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
-      />
+      <img src="/images/avatar2.jpeg" alt="Avatar 2" className="avatar" />
+      <img src="/images/avatar3.jpeg" alt="Avatar 3" className="avatar" />
+      <img src="/images/avatar4.jpeg" alt="Avatar 4" className="avatar" />
     </div>
   )
 }
