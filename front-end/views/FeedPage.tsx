@@ -40,6 +40,15 @@ export const FeedPage = ({ ordinances, onAvatarClick, selectedAvatar }) => {
     ordinances[0] ?? defaultOrdinance,
   )
 
+  // Function to scroll to the bottom of the page
+  const scrollToBottom = () => {
+    window.scrollTo({
+      left: 0,
+      top: document.body.scrollHeight,
+      behavior: 'smooth',
+    })
+  }
+
   const [activeIndex, setActiveIndex] = useState(0)
 
   const handleScroll = useCallback(() => {
@@ -76,6 +85,7 @@ export const FeedPage = ({ ordinances, onAvatarClick, selectedAvatar }) => {
           </>
         }
         currentOrdinance={currentOrdinance}
+        scrollToBottom={scrollToBottom} // Passing the function to FixedSidebar
       />
 
       <div className="relative flex-auto">

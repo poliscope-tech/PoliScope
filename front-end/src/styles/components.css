@@ -24,4 +24,15 @@
     border: 2px solid #2ECC71; /* Green color for selection */
     box-shadow: 0 0 10px rgba(46, 204, 113, 0.5); /* Soft green glow effect */
   }
+
+  .scroll-to-bottom-button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 24px; /* Adjust size as needed */
+    cursor: pointer;
+    /* Add additional styling as needed */
+
+  }
+  
   

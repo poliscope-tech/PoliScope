@@ -33,6 +33,14 @@ async function fetchData(avatarEndpoint) {
   }
 }
 
+const scrollToBottom = () => {
+  window.scrollTo({
+    left: 0,
+    top: document.body.scrollHeight,
+    behavior: 'smooth',
+  })
+}
+
 // Function to augment data
 function augmentData(rawData: IOrdinance[]) {
   const acc = {
@@ -103,6 +111,9 @@ export default function Page() {
             onAvatarClick={handleAvatarClick}
             selectedAvatar={selectedAvatar}
           />
+          <button onClick={scrollToBottom} className="scroll-to-bottom-button">
+            Scroll to Bottom
+          </button>
         </div>
       </div>
     </>

@@ -12,7 +12,7 @@ import { CategoryScale, Chart, registerables } from 'chart.js'
 Chart.register(CategoryScale)
 Chart.register(...registerables)
 
-const Avatars2 = () => {
+const Avatars2 = ({ onScrollToBottom }) => {
   return (
     <div className="mt-4 flex justify-center">
       <div className="flex space-x-6 p-4 shadow-lg">
@@ -32,12 +32,19 @@ const Avatars2 = () => {
           alt="Environment Avatar"
           className="avatar"
         />
+        <button
+          onClick={onScrollToBottom}
+          className="scroll-to-bottom-button"
+          aria-label="Scroll to bottom"
+        >
+          ↓
+        </button>
       </div>
     </div>
   )
 }
 
-const BarChart = ({ ordinance }: { ordinance: IOrdinance }) => {
+const BarChart = ({ ordinance, onScrollToBottom }: BarChartProps) => {
   const chartRef = useRef()
   const data = {
     labels: ['Housing', 'Tenant', 'Homelessness', 'Faster Permits', 'Zoning'],
@@ -102,7 +109,8 @@ const BarChart = ({ ordinance }: { ordinance: IOrdinance }) => {
   return (
     <div style={{ height: '350px' }} className="bar-chart-container">
       <Bar ref={chartRef} data={data} options={options} />
-      <Avatars2 />
+      <Avatars2 onScrollToBottom={onScrollToBottom} /> // Pass the function to
+      Avatars2
     </div>
   )
 }
@@ -111,28 +119,23 @@ export function FixedSidebar({
   main,
   currentOrdinance,
   footer,
-}: {
-  main: React.ReactNode
-  currentOrdinance: IOrdinance
-  footer?: React.ReactNode
-}) {
+  scrollToBottom,
+}: FixedSidebarProps) {
   return (
     <div className="relative flex-none overflow-hidden px-6 lg:pointer-events-none lg:fixed lg:inset-0 lg:z-40 lg:flex lg:px-0">
       <Glow />
       <div className="relative flex w-full lg:pointer-events-auto lg:mr-[calc(max(2rem,50%-38rem)+40rem)] lg:min-w-[32rem] lg:overflow-y-auto lg:overflow-x-hidden lg:pl-[max(4rem,calc(50%-38rem))]">
         <div className="mx-auto max-w-lg lg:mx-0 lg:flex lg:w-96 lg:max-w-none lg:flex-col lg:before:flex-1">
           <div className="pb-4 pt-4 sm:pb-8 sm:pt-8 lg:py-4">
-            {' '}
-            {/* Reduced padding */}
             <div className="relative">
               <StarField className="-right-44 top-14" />
               {main}
             </div>
-            {/* Optionally, you can add a margin-top to the BarChart directly to further adjust its position */}
             <div className="mt-4">
-              {' '}
-              {/* Adjust this value as needed */}
-              <BarChart ordinance={currentOrdinance} />
+              <BarChart
+                ordinance={currentOrdinance}
+                onScrollToBottom={scrollToBottom}
+              />
             </div>
           </div>
           <div className="flex flex-1 items-end justify-center pb-4 lg:justify-start lg:pb-6">
