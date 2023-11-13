@@ -14,6 +14,8 @@
   
   .avatar:hover {
     transform: scale(1.1); /* Slightly increase the size */
+    cursor: pointer; /* Changes cursor to a hand icon */
+
   }
 
   .avatar-selected {
