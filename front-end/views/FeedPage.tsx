@@ -49,6 +49,22 @@ export const FeedPage = ({ ordinances, onAvatarClick, selectedAvatar }) => {
     })
   }
 
+  // New state variable for triggering the fade-in effect
+  const [fadeIn, setFadeIn] = useState(false)
+
+  useEffect(() => {
+    if (ordinances.length > 0) {
+      // Delay setting fadeIn to true to ensure data is ready before starting the animation
+      setTimeout(() => setFadeIn(true), 100) // Adjust delay as needed
+    }
+  }, [ordinances])
+
+  useEffect(() => {
+    if (ordinances.length > 0) {
+      setFadeIn(true) // Trigger the fade-in effect when ordinances are loaded
+    }
+  }, [ordinances])
+
   const [activeIndex, setActiveIndex] = useState(0)
 
   const handleScroll = useCallback(() => {
@@ -85,24 +101,23 @@ export const FeedPage = ({ ordinances, onAvatarClick, selectedAvatar }) => {
           </>
         }
         currentOrdinance={currentOrdinance}
-        scrollToBottom={scrollToBottom} // Passing the function to FixedSidebar
+        scrollToBottom={scrollToBottom}
       />
 
-      <div className="relative flex-auto">
-        <Timeline />
-        <main className="">
-          {ordinances.length > 0 ? (
-            ordinances.map((ordinance, index) => (
+      <div className={`relative flex-auto ${fadeIn ? 'fade-in' : ''}`}>
+        {/* Render content only when fadeIn is true */}
+        {fadeIn && (
+          <main className="">
+            {ordinances.map((ordinance, index) => (
               <Ordinance
                 key={ordinance?.ID ?? index}
                 ordinance={ordinance ?? defaultOrdinance}
                 isActive={index === activeIndex}
               />
-            ))
-          ) : (
-            <div>Loading...</div> // Placeholder for empty or loading data
-          )}
-        </main>
+            ))}
+          </main>
+        )}
+        {!fadeIn && <div>Loading...</div>} {/* Show loading message */}
       </div>
     </>
   )
