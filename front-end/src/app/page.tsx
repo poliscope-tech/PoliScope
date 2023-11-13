@@ -4,7 +4,6 @@ import React, { useCallback, useState } from 'react'
 import { IOrdinance } from '@/types'
 import { FeedPage } from '../../views/FeedPage'
 
-// Function to fetch data based on avatar
 async function fetchData(avatarEndpoint) {
   const options = {
     headers: {
@@ -14,13 +13,24 @@ async function fetchData(avatarEndpoint) {
   }
 
   const url = process.env.SUPABASE_URL! + avatarEndpoint
-  const res = await fetch(url, options)
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch data')
+  try {
+    const res = await fetch(url, options)
+    if (!res.ok) {
+      console.error(
+        'Failed to fetch data:',
+        res.status,
+        res.statusText,
+        'URL:',
+        url,
+      )
+      throw new Error('Failed to fetch data')
+    }
+    return res.json()
+  } catch (error) {
+    console.error('Error fetching data:', error)
+    throw error
   }
-
-  return res.json()
 }
 
 // Function to augment data
