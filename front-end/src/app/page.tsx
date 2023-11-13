@@ -65,8 +65,11 @@ function augmentData(rawData: IOrdinance[]) {
 
 export default function Page() {
   const [data, setData] = useState([])
+  const [selectedAvatar, setSelectedAvatar] = useState<number | null>(null)
 
   const handleAvatarClick = useCallback(async (avatarIndex) => {
+    setSelectedAvatar(avatarIndex) // Update the selected avatar state
+
     let endpoint = ''
     switch (avatarIndex) {
       case 0:
@@ -95,8 +98,11 @@ export default function Page() {
     <>
       <div className="">
         <div className="relative z-0 pt-5">
-          {/* Pass the handleAvatarClick function to the FeedPage */}
-          <FeedPage ordinances={data} onAvatarClick={handleAvatarClick} />
+          <FeedPage
+            ordinances={data}
+            onAvatarClick={handleAvatarClick}
+            selectedAvatar={selectedAvatar}
+          />
         </div>
       </div>
     </>

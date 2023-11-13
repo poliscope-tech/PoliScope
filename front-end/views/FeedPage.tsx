@@ -8,44 +8,25 @@ import { Timeline } from '@/components/Timeline'
 import { Ordinance } from '@/components/Ordinance'
 
 // LEFT SIDE OF PAGE
-const Avatars = ({ onSelectAvatar }) => {
+const Avatars = ({ onSelectAvatar, selectedAvatar }) => {
   return (
     <div className="flex flex-row justify-center space-x-6 pt-4">
-      <img
-        src="/images/avatar1.jpeg"
-        alt="Avatar 1"
-        className="avatar"
-        onClick={() => onSelectAvatar(0)}
-      />
-      <img
-        src="/images/avatar2.jpeg"
-        alt="Avatar 2"
-        className="avatar"
-        onClick={() => onSelectAvatar(1)}
-      />
-      <img
-        src="/images/avatar3.jpeg"
-        alt="Avatar 3"
-        className="avatar"
-        onClick={() => onSelectAvatar(2)}
-      />
-      <img
-        src="/images/avatar4.jpeg"
-        alt="Avatar 4"
-        className="avatar"
-        onClick={() => onSelectAvatar(3)}
-      />
+      {[0, 1, 2, 3].map((index) => (
+        <img
+          key={index}
+          src={`/images/avatar${index + 1}.jpeg`}
+          alt={`Avatar ${index + 1}`}
+          className={`avatar ${
+            selectedAvatar === index ? 'avatar-selected' : ''
+          }`}
+          onClick={() => onSelectAvatar(index)}
+        />
+      ))}
     </div>
   )
 }
 
-export const FeedPage = ({
-  ordinances,
-  onAvatarClick,
-}: {
-  ordinances: IOrdinance[]
-  onAvatarClick: (index: number) => void
-}) => {
+export const FeedPage = ({ ordinances, onAvatarClick, selectedAvatar }) => {
   // Default ordinance with values set to "0"
   const defaultOrdinance: Partial<IOrdinance> = {
     acc_affordable_housing_development_score: 0,
@@ -87,13 +68,16 @@ export const FeedPage = ({
       <FixedSidebar
         main={
           <>
-            {/* Pass the handleSelectAvatar function to the Avatars component */}
-            <Avatars onSelectAvatar={handleSelectAvatar} />
+            <Avatars
+              onSelectAvatar={onAvatarClick}
+              selectedAvatar={selectedAvatar}
+            />
             <Intro />
           </>
         }
         currentOrdinance={currentOrdinance}
       />
+
       <div className="relative flex-auto">
         <Timeline />
         <main className="">
