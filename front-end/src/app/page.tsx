@@ -8,11 +8,11 @@ async function fetchData(avatarEndpoint) {
   const options = {
     headers: {
       'Content-Type': 'application/json',
-      apikey: process.env.SUPABASE_KEY!,
+      apikey: process.env.NEXT_PUBLIC_SUPABASE_KEY!!,
     },
   }
 
-  const url = process.env.SUPABASE_URL! + avatarEndpoint
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL! + avatarEndpoint
 
   try {
     const res = await fetch(url, options)
