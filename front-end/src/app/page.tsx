@@ -2,16 +2,8 @@
 import { IOrdinance } from '@/types'
 import { FeedPage } from '../../views/FeedPage.client'
 
-export default function Page({ initialOrdinances }) {
-  // Ensure the prop passed to FeedPage is named 'initialOrdinances'
-  return (
-    <div className="relative z-0 pt-5">
-      <FeedPage initialOrdinances={initialOrdinances} />
-    </div>
-  )
-}
-
-// Loader function for server-side data fetching
+// Since we're in Next.js 13 and using app directory, we don't use getServerSideProps or getStaticProps.
+// Instead, we use a loader function for server-side data fetching.
 export async function loader() {
   const res = await fetch(`${process.env.SUPABASE_URL}/rest/v1/llm_results`, {
     headers: {
@@ -26,17 +18,34 @@ export async function loader() {
 
   const data = await res.json()
 
-  // Process and return the data
-  // You can add any data processing logic here if needed before passing it to the component
-  const processedData = data.map((_in: IOrdinance) => {
-    // Example data processing logic
-    return { ..._in }
+  // Augment the data as in the working branch before returning it
+  const augmentedData = data.map((_in: IOrdinance) => {
+    // Add any additional processing needed here
+    return {
+      ..._in,
+      acc_affordable_housing_development_score:
+        Number(_in.affordable_housing_development_score) || 0,
+      acc_tenant_protections_score: Number(_in.tenant_protections_score) || 0,
+      acc_homelessness_and_supportive_housing_score:
+        Number(_in.homelessness_and_supportive_housing_score) || 0,
+      acc_faster_permitting_process_and_bureaucracy_score:
+        Number(_in.faster_permitting_process_and_bureaucracy_score) || 0,
+      acc_land_use_and_zoning_reform:
+        Number(_in.land_use_and_zoning_reform) || 0,
+    }
   })
 
-  // The object returned here has a 'props' key that contains all the data
-  // needed by the page component. Make sure the key name here matches
-  // the expected prop name in the page component.
   return {
-    props: { initialOrdinances: processedData }, // Ensure this matches the Page component's prop
+    props: { initialOrdinances: augmentedData }, // Correctly pass the augmented data as 'initialOrdinances'
   }
+}
+
+// We use the default export as a page component.
+export default function Page({ initialOrdinances }) {
+  // Pass 'initialOrdinances' directly to 'FeedPage.client'
+  return (
+    <div className="relative z-0 pt-5">
+      <FeedPage initialOrdinances={initialOrdinances} />
+    </div>
+  )
 }
