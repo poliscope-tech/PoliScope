@@ -72,8 +72,16 @@ export default function Page() {
       case 0:
         endpoint = '/rest/v1/llm_results' // Endpoint for avatar1
         break
-      // Add cases for other avatars
-      // case 1, case 2, etc.
+      case 1:
+        endpoint = '/sample/api/endpoint_for_avatar2' // Sample endpoint for avatar2
+        break
+      case 2:
+        endpoint = '/sample/api/endpoint_for_avatar3' // Sample endpoint for avatar3
+        break
+      case 3:
+        endpoint = '/sample/api/endpoint_for_avatar4' // Sample endpoint for avatar4
+        break
+      // Add more cases as needed
     }
 
     if (endpoint) {
