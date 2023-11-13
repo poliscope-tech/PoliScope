@@ -1,5 +1,7 @@
 'useClient'
 
+//GRAPH SECTION BELOW LEFT SIDE AND INTRO.
+
 import { IOrdinance } from '@/types'
 import { Glow } from './Glow'
 import { StarField } from './StarField'
@@ -9,6 +11,35 @@ import { CategoryScale, Chart, registerables } from 'chart.js'
 
 Chart.register(CategoryScale)
 Chart.register(...registerables)
+
+const Avatars2 = () => {
+  return (
+    <div className="mt-4 flex justify-center">
+      <div className="flex space-x-6 p-4 shadow-lg">
+        <img
+          src="/images/health.png"
+          alt="Healthcare Avatar"
+          className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
+        />
+        <img
+          src="/images/educ.png"
+          alt="Education Avatar"
+          className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
+        />
+        <img
+          src="/images/house.png"
+          alt="Housing Avatar"
+          className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
+        />
+        <img
+          src="/images/envir.png"
+          alt="Environment Avatar"
+          className="h-16 w-16 rounded-full border-2 border-white object-contain shadow-lg"
+        />
+      </div>
+    </div>
+  )
+}
 
 const BarChart = ({ ordinance }: { ordinance: IOrdinance }) => {
   const chartRef = useRef()
@@ -73,11 +104,9 @@ const BarChart = ({ ordinance }: { ordinance: IOrdinance }) => {
   }
 
   return (
-    // Adjust the height of the CHART
-    <div style={{ height: '350px' }}>
-      {' '}
-      {/* Increase the height as needed */}
+    <div style={{ height: '350px' }} className="bar-chart-container">
       <Bar ref={chartRef} data={data} options={options} />
+      <Avatars2 />
     </div>
   )
 }

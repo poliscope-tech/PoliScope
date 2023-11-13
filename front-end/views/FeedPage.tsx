@@ -8,7 +8,6 @@ import { Ordinance } from '@/components/Ordinance'
 import { useCallback, useEffect, useState } from 'react'
 
 //LEFT SIDE OF PAGE
-
 const Avatars = () => {
   return (
     // Use 'flex-row' for a horizontal layout, 'justify-center' to center the items horizontally,
@@ -76,8 +75,7 @@ export const FeedPage = ({ ordinances }: { ordinances: IOrdinance[] }) => {
       />
       <div className="relative flex-auto">
         <Timeline />
-
-        <main className=" py-20  sm:py-32">
+        <main className="">
           {ordinances.map((ordinance, index) => (
             <Ordinance
               key={ordinance.ID}
