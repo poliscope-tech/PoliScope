@@ -1,24 +1,40 @@
 'use client'
 
+import { useCallback, useEffect, useState } from 'react'
 import { FixedSidebar } from '@/components/FixedSidebar'
 import { IOrdinance } from '../src/types/IOrdinance'
 import { Intro } from '@/components/Intro'
 import { Timeline } from '@/components/Timeline'
 import { Ordinance } from '@/components/Ordinance'
-import { useCallback, useEffect, useState } from 'react'
 
-//LEFT SIDE OF PAGE
-const Avatars = () => {
+// LEFT SIDE OF PAGE
+const Avatars = ({ onSelectAvatar }) => {
   return (
     <div className="flex flex-row justify-center space-x-6 pt-4">
       <img
         src="/images/avatar1.jpeg"
-        alt="Dean Preston"
-        className="avatar avatar-selected" // Apply selected styles to Dean Preston
+        alt="Avatar 1"
+        className="avatar"
+        onClick={() => onSelectAvatar(0)}
       />
-      <img src="/images/avatar2.jpeg" alt="Avatar 2" className="avatar" />
-      <img src="/images/avatar3.jpeg" alt="Avatar 3" className="avatar" />
-      <img src="/images/avatar4.jpeg" alt="Avatar 4" className="avatar" />
+      <img
+        src="/images/avatar2.jpeg"
+        alt="Avatar 2"
+        className="avatar"
+        onClick={() => onSelectAvatar(1)}
+      />
+      <img
+        src="/images/avatar3.jpeg"
+        alt="Avatar 3"
+        className="avatar"
+        onClick={() => onSelectAvatar(2)}
+      />
+      <img
+        src="/images/avatar4.jpeg"
+        alt="Avatar 4"
+        className="avatar"
+        onClick={() => onSelectAvatar(3)}
+      />
     </div>
   )
 }
@@ -47,13 +63,21 @@ export const FeedPage = ({ ordinances }: { ordinances: IOrdinance[] }) => {
     }
   }, [handleScroll])
 
-  // Integrate Avatars within the FixedSidebar through the 'main' prop
+  const handleSelectAvatar = useCallback(
+    (avatarIndex) => {
+      console.log(`Avatar ${avatarIndex + 1} selected`) // Debugging statement
+      setActiveIndex(0) // Reset active index on avatar click
+      setCurrentOrdinance(ordinances[avatarIndex])
+    },
+    [ordinances],
+  )
+
   return (
     <>
       <FixedSidebar
         main={
           <>
-            <Avatars />
+            <Avatars onSelectAvatar={handleSelectAvatar} />
             <Intro />
           </>
         }
