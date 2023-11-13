@@ -9,6 +9,16 @@ import { Ordinance } from '@/components/Ordinance'
 
 // LEFT SIDE OF PAGE
 const Avatars = ({ onSelectAvatar, selectedAvatar }) => {
+  const [clickedAvatar, setClickedAvatar] = useState<number | null>(null)
+
+  const handleAvatarClick = (index) => {
+    setClickedAvatar(index)
+    onSelectAvatar(index)
+
+    // Reset the state after animation ends (500ms for the animation duration)
+    setTimeout(() => setClickedAvatar(null), 500)
+  }
+
   return (
     <div className="flex flex-row justify-center space-x-6 pt-4">
       {[0, 1, 2, 3].map((index) => (
@@ -18,8 +28,8 @@ const Avatars = ({ onSelectAvatar, selectedAvatar }) => {
           alt={`Avatar ${index + 1}`}
           className={`avatar ${
             selectedAvatar === index ? 'avatar-selected' : ''
-          }`}
-          onClick={() => onSelectAvatar(index)}
+          } ${clickedAvatar === index ? 'pulsate-bck' : ''}`}
+          onClick={() => handleAvatarClick(index)}
         />
       ))}
     </div>
