@@ -4,8 +4,8 @@ import React, { useCallback, useState } from 'react'
 import { IOrdinance } from '@/types'
 import { FeedPage } from '../../views/FeedPage'
 
-// Function to fetch data for avatar1
-async function fetchAvatar1Data() {
+// Function to fetch data based on avatar
+async function fetchData(avatarEndpoint) {
   const options = {
     headers: {
       'Content-Type': 'application/json',
@@ -13,9 +13,7 @@ async function fetchAvatar1Data() {
     },
   }
 
-  // URL for avatar1
-  const url = process.env.SUPABASE_URL! + '/rest/v1/llm_results'
-
+  const url = process.env.SUPABASE_URL! + avatarEndpoint
   const res = await fetch(url, options)
 
   if (!res.ok) {
@@ -58,19 +56,28 @@ function augmentData(rawData) {
 export default function Page() {
   const [data, setData] = useState([])
 
-  // Handle avatar1 click
-  const handleAvatar1Click = useCallback(async () => {
-    const rawData = await fetchAvatar1Data()
-    const augmentedData = augmentData(rawData)
-    setData(augmentedData)
+  const handleAvatarClick = useCallback(async (avatarIndex) => {
+    let endpoint = ''
+    switch (avatarIndex) {
+      case 0:
+        endpoint = '/rest/v1/llm_results' // Endpoint for avatar1
+        break
+      // Add cases for other avatars
+      // case 1, case 2, etc.
+    }
+
+    if (endpoint) {
+      const rawData = await fetchData(endpoint)
+      const augmentedData = augmentData(rawData)
+      setData(augmentedData)
+    }
   }, [])
 
   return (
     <>
       <div className="">
         <div className="relative z-0 pt-5">
-          {/* Pass the avatar1 click handler to FeedPage */}
-          <FeedPage ordinances={data} onAvatarClick={handleAvatar1Click} />
+          <FeedPage ordinances={data} onAvatarClick={handleAvatarClick} />
         </div>
       </div>
     </>

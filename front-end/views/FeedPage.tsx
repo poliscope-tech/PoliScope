@@ -39,9 +39,24 @@ const Avatars = ({ onSelectAvatar }) => {
   )
 }
 
-export const FeedPage = ({ ordinances }: { ordinances: IOrdinance[] }) => {
+export const FeedPage = ({
+  ordinances,
+  onAvatarClick,
+}: {
+  ordinances: IOrdinance[]
+  onAvatarClick: (index: number) => void
+}) => {
+  // Default ordinance with values set to "0"
+  const defaultOrdinance: Partial<IOrdinance> = {
+    acc_affordable_housing_development_score: 0,
+    acc_tenant_protections_score: 0,
+    acc_homelessness_and_supportive_housing_score: 0,
+    acc_faster_permitting_process_and_bureaucracy_score: 0,
+    acc_land_use_and_zoning_reform: 0,
+    // Add other properties as needed with default value "0"
+  }
   const [currentOrdinance, setCurrentOrdinance] = useState<IOrdinance>(
-    ordinances[0],
+    ordinances[0] ?? defaultOrdinance,
   )
 
   const [activeIndex, setActiveIndex] = useState(0)
@@ -51,7 +66,7 @@ export const FeedPage = ({ ordinances }: { ordinances: IOrdinance[] }) => {
     const newIndex = Math.round(position / 300)
     if (activeIndex !== newIndex) {
       setActiveIndex(newIndex)
-      setCurrentOrdinance(ordinances[newIndex])
+      setCurrentOrdinance(ordinances[newIndex] ?? defaultOrdinance)
     }
   }, [activeIndex, ordinances])
 
@@ -63,20 +78,16 @@ export const FeedPage = ({ ordinances }: { ordinances: IOrdinance[] }) => {
     }
   }, [handleScroll])
 
-  const handleSelectAvatar = useCallback(
-    (avatarIndex) => {
-      console.log(`Avatar ${avatarIndex + 1} selected`) // Debugging statement
-      setActiveIndex(0) // Reset active index on avatar click
-      setCurrentOrdinance(ordinances[avatarIndex])
-    },
-    [ordinances],
-  )
-
+  // Function to handle avatar click
+  const handleSelectAvatar = (avatarIndex) => {
+    onAvatarClick(avatarIndex)
+  }
   return (
     <>
       <FixedSidebar
         main={
           <>
+            {/* Pass the handleSelectAvatar function to the Avatars component */}
             <Avatars onSelectAvatar={handleSelectAvatar} />
             <Intro />
           </>
@@ -86,13 +97,17 @@ export const FeedPage = ({ ordinances }: { ordinances: IOrdinance[] }) => {
       <div className="relative flex-auto">
         <Timeline />
         <main className="">
-          {ordinances.map((ordinance, index) => (
-            <Ordinance
-              key={ordinance.ID}
-              ordinance={ordinance}
-              isActive={index === activeIndex}
-            />
-          ))}
+          {ordinances.length > 0 ? (
+            ordinances.map((ordinance, index) => (
+              <Ordinance
+                key={ordinance?.ID ?? index}
+                ordinance={ordinance ?? defaultOrdinance}
+                isActive={index === activeIndex}
+              />
+            ))
+          ) : (
+            <div>Loading...</div> // Placeholder for empty or loading data
+          )}
         </main>
       </div>
     </>
