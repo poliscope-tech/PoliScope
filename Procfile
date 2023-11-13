@@ -1,3 +1,2 @@
-cd front-end
-npm install
-npm run dev
+release: npm run build-frontend
+web: npm start
