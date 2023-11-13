@@ -24,7 +24,7 @@ async function fetchData(avatarEndpoint) {
 }
 
 // Function to augment data
-function augmentData(rawData) {
+function augmentData(rawData: IOrdinance[]) {
   const acc = {
     acc_affordable_housing_development_score: 0,
     acc_tenant_protections_score: 0,
@@ -33,7 +33,7 @@ function augmentData(rawData) {
     acc_land_use_and_zoning_reform: 0,
   }
 
-  return rawData.map((_in) => {
+  return rawData.map((_in: IOrdinance) => {
     return {
       ..._in,
       acc_affordable_housing_development_score:
@@ -77,6 +77,7 @@ export default function Page() {
     <>
       <div className="">
         <div className="relative z-0 pt-5">
+          {/* Pass the handleAvatarClick function to the FeedPage */}
           <FeedPage ordinances={data} onAvatarClick={handleAvatarClick} />
         </div>
       </div>
