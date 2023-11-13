@@ -10,7 +10,8 @@ import { Ordinance } from '@/components/Ordinance'
 
 // API fetch function
 async function fetchData(avatarId) {
-  // This URL will need to be updated to reflect your actual API endpoints
+  // Modify URL or headers as needed based on selected avatar
+  // This is just a placeholder, adjust the URL as necessary.
   const url = `${process.env.SUPABASE_URL}/rest/v1/llm_results?avatar=${avatarId}`
   const options = {
     headers: {
@@ -21,7 +22,9 @@ async function fetchData(avatarId) {
 
   const response = await fetch(url, options)
   if (!response.ok) {
-    throw new Error(`Failed to fetch data: ${response.statusText}`)
+    throw new Error(
+      `Failed to fetch data for avatar ${avatarId}: ${response.statusText}`,
+    )
   }
 
   return response.json()
@@ -38,24 +41,37 @@ const Avatars = ({ onAvatarClick }) => {
         className="avatar avatar-selected"
         onClick={() => onAvatarClick('avatar1')}
       />
-      {/* Repeat for other avatars */}
-      {/* ... */}
+      {/* ... other avatars with onClick handlers ... */}
     </div>
   )
 }
 
 export const FeedPage = ({ initialOrdinances }) => {
-  // Provide an initial empty array as a fallback if initialOrdinances is undefined
-  const [ordinances, setOrdinances] = useState(initialOrdinances || [])
-  // Use the first item of the ordinances array or a fallback empty object
-  const [currentOrdinance, setCurrentOrdinance] = useState(ordinances[0] || {})
+  // Initialize with a fallback if initialOrdinances is null or undefined
+  const [ordinances, setOrdinances] = useState(
+    initialOrdinances?.map((ord) => ({
+      ...ord,
+      acc_affordable_housing_development_score:
+        ord.acc_affordable_housing_development_score || 0,
+      // Add similar lines for other properties that need a default value of 0
+    })) || [],
+  )
+
+  // Use the first item of the ordinances array or a fallback with default values
+  const [currentOrdinance, setCurrentOrdinance] = useState(
+    ordinances?.[0] || {
+      acc_affordable_housing_development_score: 0,
+      // Set defaults for other properties here
+    },
+  )
   const [activeIndex, setActiveIndex] = useState(0)
 
+  // Function to handle avatar clicks and fetch data
   const handleAvatarClick = useCallback(async (avatarId) => {
     try {
       const newData = await fetchData(avatarId)
       setOrdinances(newData)
-      setCurrentOrdinance(newData[0])
+      setCurrentOrdinance(newData[0] || null)
       setActiveIndex(0) // Reset to the first item if necessary
     } catch (error) {
       console.error(error)
@@ -65,9 +81,12 @@ export const FeedPage = ({ initialOrdinances }) => {
 
   // Load data for Avatar1 initially
   useEffect(() => {
-    handleAvatarClick('avatar1')
-  }, [handleAvatarClick])
+    if (!initialOrdinances || initialOrdinances.length === 0) {
+      handleAvatarClick('avatar1')
+    }
+  }, [handleAvatarClick, initialOrdinances])
 
+  // Scroll event handling
   const handleScroll = useCallback(() => {
     const position = window.pageYOffset
     const newIndex = Math.round(position / 300)
@@ -77,6 +96,7 @@ export const FeedPage = ({ initialOrdinances }) => {
     }
   }, [activeIndex, ordinances])
 
+  // Register and clean up the scroll event listener
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true })
 
@@ -84,19 +104,15 @@ export const FeedPage = ({ initialOrdinances }) => {
       window.removeEventListener('scroll', handleScroll)
     }
   }, [handleScroll])
-  // Ensure that ordinances have data before attempting to map over them
-  const ordinanceElements =
-    ordinances.length > 0 ? (
-      ordinances.map((ordinance, index) => (
-        <Ordinance
-          key={ordinance.ID}
-          ordinance={ordinance}
-          isActive={index === activeIndex}
-        />
-      ))
-    ) : (
-      <div>No data available</div> // Or some other placeholder content
-    )
+
+  // Render the ordinances if available, with null checks
+  const ordinanceElements = ordinances.map((ordinance, index) => (
+    <Ordinance
+      key={ordinance.ID || index} // Fallback to index if ID is not available
+      ordinance={ordinance}
+      isActive={index === activeIndex}
+    />
+  ))
 
   return (
     <>
@@ -111,7 +127,13 @@ export const FeedPage = ({ initialOrdinances }) => {
       />
       <div className="relative flex-auto">
         <Timeline />
-        <main className="">{ordinanceElements}</main>
+        <main className="">
+          {ordinanceElements.length > 0 ? (
+            ordinanceElements
+          ) : (
+            <div>No data available</div>
+          )}
+        </main>
       </div>
     </>
   )
