@@ -2,14 +2,14 @@
 import { IOrdinance } from '@/types'
 import { FeedPage } from '../../views/FeedPage.client'
 
-export default function Page({ data }) {
+export default function Page(props) {
+  // The prop should be named 'initialOrdinances' to match what FeedPage is expecting.
   return (
     <div className="relative z-0 pt-5">
-      <FeedPage initialOrdinances={data} />
+      <FeedPage initialOrdinances={props.initialOrdinances} />
     </div>
   )
 }
-
 // Loader function for server-side data fetching
 export async function loader() {
   const res = await fetch(`${process.env.SUPABASE_URL}/rest/v1/llm_results`, {

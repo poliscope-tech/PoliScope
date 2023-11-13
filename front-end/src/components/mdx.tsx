@@ -128,5 +128,8 @@ export const code = function Code({
     )
   }
 
-  return <code {...props} />
+  // Make sure to return the data with the correct prop name
+  return {
+    props: { initialOrdinances: processedData }, // Correct prop name
+  }
 }
