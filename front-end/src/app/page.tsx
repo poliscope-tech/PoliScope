@@ -4,11 +4,12 @@ import React, { useCallback, useState } from 'react'
 import { IOrdinance } from '@/types'
 import { FeedPage } from '../../views/FeedPage'
 
-async function fetchData(avatarEndpoint) {
+// Type annotation for the avatarEndpoint parameter
+async function fetchData(avatarEndpoint: string) {
   const options = {
     headers: {
       'Content-Type': 'application/json',
-      apikey: process.env.NEXT_PUBLIC_SUPABASE_KEY!!,
+      apikey: process.env.NEXT_PUBLIC_SUPABASE_KEY!,
     },
   }
 
@@ -72,10 +73,10 @@ function augmentData(rawData: IOrdinance[]) {
 }
 
 export default function Page() {
-  const [data, setData] = useState([])
+  const [data, setData] = useState<IOrdinance[]>([])
   const [selectedAvatar, setSelectedAvatar] = useState<number | null>(null)
 
-  const handleAvatarClick = useCallback(async (avatarIndex) => {
+  const handleAvatarClick = useCallback(async (avatarIndex: number) => {
     setSelectedAvatar(avatarIndex) // Update the selected avatar state
 
     let endpoint = ''
