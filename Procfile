@@ -1,2 +1,2 @@
 release: npm run build-frontend
-web: npm start
+web: npm run start
