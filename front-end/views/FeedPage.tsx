@@ -114,7 +114,7 @@ export const FeedPage: React.FC<FeedPageProps> = ({
   }, [handleScroll])
 
   // Function to handle avatar click
-  const handleSelectAvatar = (avatarIndex) => {
+  const handleSelectAvatar = (avatarIndex: number) => {
     onAvatarClick(avatarIndex)
   }
   return (
