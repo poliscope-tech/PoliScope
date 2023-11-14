@@ -16,7 +16,7 @@ const Avatars2 = ({ onScrollToBottom }) => {
   return (
     <div className="mt-4 flex justify-center">
       <div className="flex space-x-6 p-4 shadow-lg">
-        <img
+        {/* <img
           src="/images/health.png"
           alt="Healthcare Avatar"
           className="avatar"
@@ -31,7 +31,7 @@ const Avatars2 = ({ onScrollToBottom }) => {
           src="/images/envir.png"
           alt="Environment Avatar"
           className="avatar"
-        />
+        /> */}
         <button
           onClick={onScrollToBottom}
           className="scroll-to-bottom-button"
@@ -107,9 +107,29 @@ const BarChart = ({ ordinance, onScrollToBottom }: BarChartProps) => {
   }
 
   return (
-    <div style={{ height: '350px' }} className="bar-chart-container">
-      <Bar ref={chartRef} data={data} options={options} />
-      <Avatars2 onScrollToBottom={onScrollToBottom} />
+    <div
+      style={{ position: 'relative', height: '350px' }}
+      className="bar-chart-container"
+    >
+      <div style={{ display: 'flex', height: '100%' }}>
+        <div style={{ flexGrow: 1 }}>
+          {' '}
+          {/* Flex grow will push the button to the right */}
+          <Bar ref={chartRef} data={data} options={options} />
+        </div>
+
+        <div style={{ alignSelf: 'center', marginLeft: '130px' }}>
+          {' '}
+          {/* Adjust marginLeft for more space */}
+          <button
+            onClick={onScrollToBottom}
+            className="scroll-to-bottom-button"
+            aria-label="Scroll to bottom"
+          >
+            ↓
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
@@ -121,7 +141,7 @@ export function FixedSidebar({
   scrollToBottom,
 }: FixedSidebarProps) {
   return (
-    <div className="relative flex-none overflow-hidden px-6 lg:pointer-events-none lg:fixed lg:inset-0 lg:z-40 lg:flex lg:px-0">
+    <div className="fixed-sidebar-container relative flex-none overflow-hidden px-6 lg:pointer-events-none lg:fixed lg:inset-0 lg:z-40 lg:flex lg:px-0">
       <Glow />
       <div className="relative flex w-full lg:pointer-events-auto lg:mr-[calc(max(2rem,50%-38rem)+40rem)] lg:min-w-[32rem] lg:overflow-y-auto lg:overflow-x-hidden lg:pl-[max(4rem,calc(50%-38rem))]">
         <div className="mx-auto max-w-lg lg:mx-0 lg:flex lg:w-96 lg:max-w-none lg:flex-col lg:before:flex-1">

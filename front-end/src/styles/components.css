@@ -34,13 +34,18 @@
     color: white;
     font-size: 32px; /* Adjust size as needed */
     cursor: pointer;
-    margin-left: 70px !important; /* Increase specificity */
+    margin-left: 1px !important; /* Increase specificity */
 
   }
   .pulsate-bck {
 	-webkit-animation: pulsate-bck 0.5s ease-in-out both;
 	        animation: pulsate-bck 0.5s ease-in-out both;
 }
+
+.fixed-sidebar-container {
+    overflow: hidden; /* This prevents scrolling */
+  }
+  
 
 @-webkit-keyframes pulsate-bck {
     0% {
