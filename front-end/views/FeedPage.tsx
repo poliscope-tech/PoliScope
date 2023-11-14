@@ -7,8 +7,16 @@ import { Intro } from '@/components/Intro'
 import { Timeline } from '@/components/Timeline'
 import { Ordinance } from '@/components/Ordinance'
 
+type AvatarsProps = {
+  onSelectAvatar: (index: number) => void
+  selectedAvatar: number | null
+}
+
 // LEFT SIDE OF PAGE
-const Avatars = ({ onSelectAvatar, selectedAvatar }) => {
+const Avatars: React.FC<AvatarsProps> = ({
+  onSelectAvatar,
+  selectedAvatar,
+}) => {
   const [clickedAvatar, setClickedAvatar] = useState<number | null>(null)
 
   const handleAvatarClick = (index) => {
@@ -36,7 +44,17 @@ const Avatars = ({ onSelectAvatar, selectedAvatar }) => {
   )
 }
 
-export const FeedPage = ({ ordinances, onAvatarClick, selectedAvatar }) => {
+type FeedPageProps = {
+  ordinances: IOrdinance[]
+  onAvatarClick: (index: number) => void
+  selectedAvatar: number | null
+}
+
+export const FeedPage: React.FC<FeedPageProps> = ({
+  ordinances,
+  onAvatarClick,
+  selectedAvatar,
+}) => {
   // Default ordinance with values set to "0"
   const defaultOrdinance: Partial<IOrdinance> = {
     acc_affordable_housing_development_score: 0,
