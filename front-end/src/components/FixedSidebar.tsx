@@ -1,37 +1,21 @@
-'useClient'
-
-//GRAPH SECTION BELOW LEFT SIDE AND INTRO.
-
+import React, { useRef } from 'react'
 import { IOrdinance } from '@/types'
 import { Glow } from './Glow'
 import { StarField } from './StarField'
-import { useRef } from 'react'
 import { Bar } from 'react-chartjs-2'
 import { CategoryScale, Chart, registerables } from 'chart.js'
 
 Chart.register(CategoryScale)
 Chart.register(...registerables)
 
-const Avatars2 = ({ onScrollToBottom }) => {
+type Avatars2Props = {
+  onScrollToBottom: () => void
+}
+
+const Avatars2: React.FC<Avatars2Props> = ({ onScrollToBottom }) => {
   return (
     <div className="mt-4 flex justify-center">
       <div className="flex space-x-6 p-4 shadow-lg">
-        {/* <img
-          src="/images/health.png"
-          alt="Healthcare Avatar"
-          className="avatar"
-        />
-        <img src="/images/educ.png" alt="Education Avatar" className="avatar" />
-        <img
-          src="/images/house.png"
-          alt="Housing"
-          className="avatar avatar-selected-green" // Apply green selected styles to Housing
-        />
-        <img
-          src="/images/envir.png"
-          alt="Environment Avatar"
-          className="avatar"
-        /> */}
         <button
           onClick={onScrollToBottom}
           className="scroll-to-bottom-button"
@@ -42,6 +26,11 @@ const Avatars2 = ({ onScrollToBottom }) => {
       </div>
     </div>
   )
+}
+
+type BarChartProps = {
+  ordinance: IOrdinance
+  onScrollToBottom: () => void
 }
 
 const BarChart = ({ ordinance, onScrollToBottom }: BarChartProps) => {
@@ -78,6 +67,7 @@ const BarChart = ({ ordinance, onScrollToBottom }: BarChartProps) => {
       },
     ],
   }
+
   const options = {
     maintainAspectRatio: false,
     scales: {
@@ -132,6 +122,13 @@ const BarChart = ({ ordinance, onScrollToBottom }: BarChartProps) => {
       </div>
     </div>
   )
+}
+
+type FixedSidebarProps = {
+  main: React.ReactNode
+  currentOrdinance: IOrdinance
+  footer?: React.ReactNode
+  scrollToBottom: () => void
 }
 
 export function FixedSidebar({
