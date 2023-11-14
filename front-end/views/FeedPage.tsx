@@ -19,7 +19,8 @@ const Avatars: React.FC<AvatarsProps> = ({
 }) => {
   const [clickedAvatar, setClickedAvatar] = useState<number | null>(null)
 
-  const handleAvatarClick = (index) => {
+  // Add type annotation here
+  const handleAvatarClick = (index: number) => {
     setClickedAvatar(index)
     onSelectAvatar(index)
 
