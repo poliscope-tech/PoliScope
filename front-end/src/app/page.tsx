@@ -1,46 +1,52 @@
-'use client'
+import React, { useCallback, useState } from 'react';
+import { IOrdinance } from '@/types';
+import { FeedPage } from '../../views/FeedPage';
+import { Avatars } from './Avatars'; // Import Avatars component
 
-import React, { useCallback, useState } from 'react'
-import { IOrdinance } from '@/types'
-import { FeedPage } from '../../views/FeedPage'
+export default function Page() {
+  const [data, setData] = useState<IOrdinance[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedAvatar, setSelectedAvatar] = useState<number | null>(null);
 
-// Type annotation for the avatarEndpoint parameter
-async function fetchData(avatarEndpoint: string) {
-  const options = {
-    headers: {
-      'Content-Type': 'application/json',
-      apikey: process.env.NEXT_PUBLIC_SUPABASE_KEY!,
-    },
-  }
+  // Fetch data based on selected category and avatar index
+  async function fetchData(category: string, avatarIndex: number): Promise<IOrdinance[]> {
+    // Placeholder endpoints for each category and avatar
+    const endpoints = {
+      health: ['/api/health/avatar1', '/api/health/avatar2', '/api/health/avatar3', '/api/health/avatar4'],
+      education: ['/api/education/avatar1', '/api/education/avatar2', '/api/education/avatar3', '/api/education/avatar4'],
+      housing: ['/api/housing/avatar1', '/api/housing/avatar2', '/api/housing/avatar3', '/api/housing/avatar4'],
+      environment: ['/api/environment/avatar1', '/api/environment/avatar2', '/api/environment/avatar3', '/api/environment/avatar4'],
+    };
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL! + avatarEndpoint
+    const endpoint = endpoints[category][avatarIndex];
+    const options = {
+      headers: {
+        'Content-Type': 'application/json',
+        apikey: process.env.NEXT_PUBLIC_SUPABASE_KEY!,
+      },
+    };
 
-  try {
-    const res = await fetch(url, options)
-    if (!res.ok) {
-      console.error(
-        'Failed to fetch data:',
-        res.status,
-        res.statusText,
-        'URL:',
-        url,
-      )
-      throw new Error('Failed to fetch data')
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL! + endpoint;
+
+    try {
+      const res = await fetch(url, options);
+      if (!res.ok) {
+        throw new Error(`Failed to fetch data from ${url}`);
+      }
+      return await res.json();
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error;
     }
-    return res.json()
-  } catch (error) {
-    console.error('Error fetching data:', error)
-    throw error
   }
-}
 
-const scrollToBottom = () => {
-  window.scrollTo({
-    left: 0,
-    top: document.body.scrollHeight,
-    behavior: 'smooth',
-  })
-}
+  const scrollToBottom = () => {
+    window.scrollTo({
+      left: 0,
+      top: document.body.scrollHeight,
+      behavior: 'smooth',
+    });
+  };
 
 // Function to augment data
 function augmentData(rawData: IOrdinance[]) {
@@ -74,39 +80,25 @@ function augmentData(rawData: IOrdinance[]) {
 
 export default function Page() {
   const [data, setData] = useState<IOrdinance[]>([])
+  const [selectedCategory, setSelectedCategory] = useState<string>('')
   const [selectedAvatar, setSelectedAvatar] = useState<number | null>(null)
 
-  const handleAvatarClick = useCallback(async (avatarIndex: number) => {
-    setSelectedAvatar(avatarIndex) // Update the selected avatar state
-
-    let endpoint = ''
-    switch (avatarIndex) {
-      case 0:
-        endpoint = '/rest/v1/llm_results' // Endpoint for avatar1
-        break
-      case 1:
-        endpoint = '/sample/api/endpoint_for_avatar2' // Sample endpoint for avatar2
-        break
-      case 2:
-        endpoint = '/sample/api/endpoint_for_avatar3' // Sample endpoint for avatar3
-        break
-      case 3:
-        endpoint = '/sample/api/endpoint_for_avatar4' // Sample endpoint for avatar4
-        break
-      // Add more cases as needed
+   // Handle avatar click
+   const handleAvatarClick = useCallback(async (avatarIndex: number) => {
+    if (selectedCategory && avatarIndex != null) {
+      const rawData = await fetchData(selectedCategory, avatarIndex);
+      const augmentedData = augmentData(rawData);
+      setData(augmentedData);
+      setSelectedAvatar(avatarIndex);
     }
-
-    if (endpoint) {
-      const rawData = await fetchData(endpoint)
-      const augmentedData = augmentData(rawData)
-      setData(augmentedData)
-    }
-  }, [])
+  }, [selectedCategory]);
 
   return (
     <>
       <div className="">
         <div className="relative z-0 pt-5">
+          {/* Pass the onSelectCategory function to Avatars */}
+          <Avatars onSelectCategory={setSelectedCategory} />
           <FeedPage
             ordinances={data}
             onAvatarClick={handleAvatarClick}
@@ -118,5 +110,5 @@ export default function Page() {
         </div>
       </div>
     </>
-  )
+  );
 }
