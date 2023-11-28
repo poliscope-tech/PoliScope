@@ -43,8 +43,8 @@ def main():
     data_path_name = './data/csv/politicians.csv'
     positions = False
 
-    # data_frame = supabase_connector.read_table(table_name)
-    # data_frame.to_csv(data_path_name, index=False)
+    data_frame = supabase_connector.read_table(table_name)
+    data_frame.to_csv(data_path_name, index=False)
 
     # Check if the DataFrame is not empty
     # if not data_frame.empty:
@@ -67,6 +67,7 @@ def main():
         ## Filter data
         # Assuming you have a DataFrame 'df' with a dat63e column named 'Action Date'
         llm_processor.data = filter_last_n_months(llm_processor.data, 'Action Date', 6)  # This will filter for the last 3 months
+
         ## Filter on 1 politician
         llm_processor.data = llm_processor.data[llm_processor.data['name']=='Dean_Preston']
         llm_processor.data = llm_processor.data[llm_processor.data['Meeting Body'].isin(['Land Use and Transportation Committee', 'Homelessness and Behavioral Health Select Committee'])]

@@ -12,7 +12,7 @@ import numpy as np
 
 class LLMProcessor:
     def __init__(self, data):
-        self.data = pd.read_csv(data, nrows=3) ## Testing on 5 rows
+        self.data = pd.read_csv(data) ## Testing on 5 rows
         self.data = self.data.dropna(how='any')
 
     def initialize_agent(self, agent_def_path, model_name="gpt-3.5-turbo"):
