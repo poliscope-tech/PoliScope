@@ -1,6 +1,45 @@
 @import './typography.css';
 @tailwind components;
 
+/* styles.css */
+
+.menu {
+  position: fixed;
+  top: 0;
+  right: -250px; /* Menu width */
+  width: 250px;
+  height: 100%;
+  background: white;
+  transition: right 0.3s;
+  z-index: 1000;
+}
+
+/* styles.css */
+
+.hamburger-icon {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+
+.menu.open {
+  right: 0;
+}
+
+.menu ul {
+  list-style-type: none;
+  padding: 20px;
+}
+
+.menu li {
+  padding: 10px 0;
+}
+
+
 
 .avatar {
     height: 4rem; /* 64px */
