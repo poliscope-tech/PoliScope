@@ -12,6 +12,7 @@ export const SlideOutMenu: React.FC<SlideOutMenuProps> = ({ isOpen }) => {
   return (
     <div className={menuClass}>
       <ul>
+        <br></br>
         <li>Supervisors</li>
         <li>Districts</li>
         <li>About Us</li>

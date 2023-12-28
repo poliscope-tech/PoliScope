@@ -3,13 +3,14 @@
 
 /* styles.css */
 
+
 .menu {
   position: fixed;
   top: 0;
   right: -250px; /* Menu width */
   width: 250px;
   height: 100%;
-  background: white;
+  background: #0C1C55;
   transition: right 0.3s;
   z-index: 1000;
 }
