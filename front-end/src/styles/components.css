@@ -1,8 +1,6 @@
 @import './typography.css';
 @tailwind components;
 
-/* styles.css */
-
 
 .menu {
   position: fixed;
