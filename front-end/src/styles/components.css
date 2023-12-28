@@ -7,13 +7,14 @@
 .menu {
   position: fixed;
   top: 0;
-  right: -250px; /* Menu width */
-  width: 250px;
+  right: -170px; /* Menu width */
+  width: 170px;
   height: 100%;
-  background: #0C1C55;
+  background: linear-gradient(to left, #0C1C55 91%, transparent); /* Adjusted fading effect */
   transition: right 0.3s;
   z-index: 1000;
 }
+
 
 /* styles.css */
 
