@@ -8,7 +8,7 @@
   right: -170px; /* Menu width */
   width: 170px;
   height: 100%;
-  background: linear-gradient(to left, #0C1C55 91%, transparent); /* Adjusted fading effect */
+  background: linear-gradient(to left, #0C1C55 93%, transparent); /* Adjusted fading effect */
   transition: right 0.3s;
   z-index: 1000;
 }

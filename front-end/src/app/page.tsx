@@ -111,7 +111,7 @@ export default function Page() {
 
   return (
     <>
-      <HamburgerIcon onClick={toggleMenu} />
+      <HamburgerIcon onClick={toggleMenu} isOpen={menuOpen} />
       <SlideOutMenu isOpen={menuOpen} />
       <div className="">
         <div className="relative z-0 pt-5">
