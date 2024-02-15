@@ -71,7 +71,10 @@ def main():
         ## Filter on 1 politician
         llm_processor.data = llm_processor.data[llm_processor.data['name']=='Dean_Preston']
         llm_processor.data = llm_processor.data[llm_processor.data['Meeting Body'].isin(['Land Use and Transportation Committee', 'Homelessness and Behavioral Health Select Committee'])]
-        llm_processor.data = llm_processor.data.head(1)
+        
+        ## Use this to filter data down for testing
+        # llm_processor.data = llm_processor.data.head(10)
+
         print(llm_processor.data.shape, 'size after filter')
 
         if positions:
