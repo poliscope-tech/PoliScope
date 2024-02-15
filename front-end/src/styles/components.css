@@ -2,6 +2,45 @@
 @tailwind components;
 
 
+.menu {
+  position: fixed;
+  top: 0;
+  right: -170px; /* Menu width */
+  width: 170px;
+  height: 100%;
+  background: linear-gradient(to left, #0C1C55 93%, transparent); /* Adjusted fading effect */
+  transition: right 0.3s;
+  z-index: 1000;
+}
+
+
+/* styles.css */
+
+.hamburger-icon {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+
+.menu.open {
+  right: 0;
+}
+
+.menu ul {
+  list-style-type: none;
+  padding: 20px;
+}
+
+.menu li {
+  padding: 10px 0;
+}
+
+
+
 .avatar {
     height: 4rem; /* 64px */
     width: 4rem; /* 64px */

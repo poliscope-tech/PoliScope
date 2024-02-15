@@ -1,7 +1,8 @@
 'use client'
-
-import React, { useCallback, useState } from 'react'
 import { IOrdinance } from '@/types'
+import React, { useCallback, useState } from 'react'
+import { SlideOutMenu } from '../components/SlideOutMenu'
+import { HamburgerIcon } from '../components/HamburgerIcon';
 import { FeedPage } from '../../views/FeedPage'
 
 // Type annotation for the avatarEndpoint parameter
@@ -75,6 +76,11 @@ function augmentData(rawData: IOrdinance[]) {
 export default function Page() {
   const [data, setData] = useState<IOrdinance[]>([])
   const [selectedAvatar, setSelectedAvatar] = useState<number | null>(null)
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = useCallback(() => {
+    setMenuOpen(!menuOpen);
+  }, [menuOpen]);
 
   const handleAvatarClick = useCallback(async (avatarIndex: number) => {
     setSelectedAvatar(avatarIndex) // Update the selected avatar state
@@ -105,6 +111,8 @@ export default function Page() {
 
   return (
     <>
+      <HamburgerIcon onClick={toggleMenu} isOpen={menuOpen} />
+      <SlideOutMenu isOpen={menuOpen} />
       <div className="">
         <div className="relative z-0 pt-5">
           <FeedPage
