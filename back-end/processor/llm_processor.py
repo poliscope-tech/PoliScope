@@ -74,7 +74,7 @@ class LLMProcessor:
         
         # Use DataFrame.apply with axis=1 to apply the custom function row-wise
         self.data = self.data.apply(self.custom_function, axis=1)
-        self.data.drop(['score'], inplace=True)
+        self.data.drop(['score'], axis=1, inplace=True)
         return self.data
 
     def run_agent(self, agent, human_input):
