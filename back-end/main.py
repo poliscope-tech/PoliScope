@@ -65,11 +65,11 @@ def main():
         llm_processor.positions_agent = llm_processor.initialize_agent(positions_agent_path, model_name="gpt-4")
         
         ## Filter data
-        # Assuming you have a DataFrame 'df' with a dat63e column named 'Action Date'
+        # Assuming you have a DataFrame 'df' with a date column named 'Action Date'
         llm_processor.data = filter_last_n_months(llm_processor.data, 'Action Date', 6)  # This will filter for the last 3 months
 
         ## Filter on 1 politician
-        llm_processor.data = llm_processor.data[llm_processor.data['name']=='Dean_Preston']
+        llm_processor.data = llm_processor.data[llm_processor.data['name']=="Myrna_Melgar"]
         llm_processor.data = llm_processor.data[llm_processor.data['Meeting Body'].isin(['Land Use and Transportation Committee', 'Homelessness and Behavioral Health Select Committee'])]
         
         ## Use this to filter data down for testing
@@ -83,7 +83,7 @@ def main():
         # Process the data with the LLM
         llm_processor.process()
         # Optional: Do something with the results, e.g., save them to a file or database
-        output_path = './llm_results.csv'
+        output_path = './llm_results2.csv'
 
         llm_processor.data.to_csv(output_path, index=False)
 

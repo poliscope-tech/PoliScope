@@ -88,10 +88,10 @@ export default function Page() {
     let endpoint = ''
     switch (avatarIndex) {
       case 0:
-        endpoint = '/rest/v1/llm_results' // Endpoint for avatar1
+        endpoint = '/rest/v1/Dean_Preston' // Endpoint for avatar1
         break
       case 1:
-        endpoint = '/sample/api/endpoint_for_avatar2' // Sample endpoint for avatar2
+        endpoint = '/rest/v1/Myrna_Melgar' // Sample endpoint for avatar2
         break
       case 2:
         endpoint = '/sample/api/endpoint_for_avatar3' // Sample endpoint for avatar3

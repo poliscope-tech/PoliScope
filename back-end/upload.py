@@ -18,18 +18,18 @@ database_url = f'postgresql://postgres.hxrggsnimtifedjvpupp:U956u9HMsiYvRf0o@aws
 engine = create_engine(database_url)
     
 # Read the llm_results.csv file into a DataFrame
-llm_results_df = pd.read_csv('llm_results.csv')
+llm_results_df = pd.read_csv('Myrna_Melgar.csv')
 
 # Clean the DataFrame if needed (handle NaNs, format columns, etc.)
 llm_results_df = llm_results_df.fillna(0.0)
 
 # Assuming llm_results.csv is correctly formatted and ready for upload, this step may not be necessary.
-llm_results_df.to_sql('llm_results', con=engine, index=False, if_exists='append')
+llm_results_df.to_sql('Myrna_Melgar', con=engine, index=False, if_exists='append')
 
 # Write the DataFrame to the 'llm_results' table in the database
 # The table_name 'llm_results' must exist in your Supabase database schema.
 # supa.write_rows(llm_results_df, 'llm_results')
 
-print('llm_results.csv data has been written to the database.')
+print('Csv data has been written to the database.')
 
 engine.dispose()
