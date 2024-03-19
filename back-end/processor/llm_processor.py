@@ -115,7 +115,10 @@ class LLMProcessor:
         self.data['summary'] = self.data.apply(self.apply_summarizer_agent, axis=1)
         # print(llm_response)
         
-        self.data['scorer_field'] = '"' + self.data['category'] + '"' +  ', ' + '"' + self.data['Vote'] + '"' + ', ' +  '"' + self.data['Title'] +  '"'
+        # Ensure all data being concatenated is converted to strings
+        self.data['scorer_field'] = ('"' + self.data['category'].astype(str) + '"' +  ', ' +
+                                    '"' + self.data['Vote'].astype(str) + '"' + ', ' +
+                                    '"' + self.data['Title'].astype(str) + '"')
 
         ## Apply on all not in 'other' category field
         self.data['score'] = self.data.apply(self.apply_scorer_agent, axis=1)

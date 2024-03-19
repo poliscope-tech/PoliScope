@@ -44,6 +44,8 @@ def main():
     positions = False
 
     data_frame = supabase_connector.read_table(table_name)
+    print("Initial data read from Supabase:", data_frame.head())  # Display the first few rows of the data
+
     data_frame.to_csv(data_path_name, index=False)
 
     # Check if the DataFrame is not empty
@@ -68,22 +70,25 @@ def main():
         # Assuming you have a DataFrame 'df' with a date column named 'Action Date'
         llm_processor.data = filter_last_n_months(llm_processor.data, 'Action Date', 6)  # This will filter for the last 3 months
 
+
         ## Filter on 1 politician
-        llm_processor.data = llm_processor.data[llm_processor.data['name']=="Myrna_Melgar"]
+        print("Data size before filtering:", llm_processor.data.shape)
+        llm_processor.data = llm_processor.data[llm_processor.data['name']=="Catherine_Stefani"]
+        print("Data size after filtering:", llm_processor.data.shape)
+
+        print("Data size before filtering for Meeting Body:", llm_processor.data.shape)
         llm_processor.data = llm_processor.data[llm_processor.data['Meeting Body'].isin(['Land Use and Transportation Committee', 'Homelessness and Behavioral Health Select Committee'])]
-        
+        print("Data size after filtering for Meeting Body:", llm_processor.data.shape)
+
         ## Use this to filter data down for testing
         # llm_processor.data = llm_processor.data.head(10)
-
         print(llm_processor.data.shape, 'size after filter')
-
         if positions:
             llm_processor.process_positions()
-
         # Process the data with the LLM
         llm_processor.process()
         # Optional: Do something with the results, e.g., save them to a file or database
-        output_path = './llm_results2.csv'
+        output_path = './Shamann_Walton.csv'
 
         llm_processor.data.to_csv(output_path, index=False)
 

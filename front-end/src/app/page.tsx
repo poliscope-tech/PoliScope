@@ -85,19 +85,20 @@ export default function Page() {
   const handleAvatarClick = useCallback(async (avatarIndex: number) => {
     setSelectedAvatar(avatarIndex) // Update the selected avatar state
 
+    //Currently HOUSING Category. Must do other 3 categories.
     let endpoint = ''
     switch (avatarIndex) {
       case 0:
-        endpoint = '/rest/v1/Dean_Preston' // Endpoint for avatar1
+        endpoint = '/rest/v1/Dean_Preston-H' // Endpoint for avatar1
         break
       case 1:
-        endpoint = '/rest/v1/Myrna_Melgar' // Sample endpoint for avatar2
+        endpoint = '/rest/v1/Myrna_Melgar-H' // Sample endpoint for avatar2
         break
       case 2:
-        endpoint = '/sample/api/endpoint_for_avatar3' // Sample endpoint for avatar3
+        endpoint = '/rest/v1/Rafael_Mandelman-H' // Sample endpoint for avatar3
         break
       case 3:
-        endpoint = '/sample/api/endpoint_for_avatar4' // Sample endpoint for avatar4
+        endpoint = '/rest/v1/Aaron_Peskin-H' // Sample endpoint for avatar4
         break
       // Add more cases as needed
     }
