@@ -4,6 +4,7 @@ from processor.llm_processor import LLMProcessor
 import os
 import pandas as pd
 
+
 # Assume that the SUPABASE_URL and SUPABASE_KEY are defined in your environment variables
 supabase_url = os.environ.get("SUPABASE_URL")
 supabase_key = os.environ.get("SUPABASE_KEY")
@@ -73,7 +74,7 @@ def main():
 
         ## Filter on 1 politician
         print("Data size before filtering:", llm_processor.data.shape)
-        llm_processor.data = llm_processor.data[llm_processor.data['name']=="Catherine_Stefani"]
+        llm_processor.data = llm_processor.data[llm_processor.data['name']=="Hillary_Ronen "]
         print("Data size after filtering:", llm_processor.data.shape)
 
         print("Data size before filtering for Meeting Body:", llm_processor.data.shape)
@@ -88,7 +89,7 @@ def main():
         # Process the data with the LLM
         llm_processor.process()
         # Optional: Do something with the results, e.g., save them to a file or database
-        output_path = './Shamann_Walton.csv'
+        output_path = './Hillary_Ronen-H.csv'
 
         llm_processor.data.to_csv(output_path, index=False)
 

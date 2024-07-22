@@ -14,7 +14,9 @@ async function fetchData(avatarEndpoint: string) {
     },
   }
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL! + avatarEndpoint
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}${avatarEndpoint}`
+
+  console.log('Fetching data from URL:', url)
 
   try {
     const res = await fetch(url, options)
@@ -33,6 +35,14 @@ async function fetchData(avatarEndpoint: string) {
     console.error('Error fetching data:', error)
     throw error
   }
+}
+
+const scrollToTop = () => {
+  window.scrollTo({
+    left: 0,
+    top: 0,
+    behavior: 'smooth',
+  })
 }
 
 const scrollToBottom = () => {
@@ -85,20 +95,19 @@ export default function Page() {
   const handleAvatarClick = useCallback(async (avatarIndex: number) => {
     setSelectedAvatar(avatarIndex) // Update the selected avatar state
 
-    //Currently HOUSING Category. Must do other 3 categories.
     let endpoint = ''
     switch (avatarIndex) {
       case 0:
-        endpoint = '/rest/v1/Dean_Preston-H' // Endpoint for avatar1
+        endpoint = 'rest/v1/Dean_Preston-H' // Table name for Dean_Preston
         break
       case 1:
-        endpoint = '/rest/v1/Myrna_Melgar-H' // Sample endpoint for avatar2
+        endpoint = 'rest/v1/Aaron_Peskin-H' // Table name for Myrna_Melgar
         break
       case 2:
-        endpoint = '/rest/v1/Rafael_Mandelman-H' // Sample endpoint for avatar3
+        endpoint = 'rest/v1/Myrna_Melgar-H' // Table name for Rafael_Mandelman
         break
       case 3:
-        endpoint = '/rest/v1/Aaron_Peskin-H' // Sample endpoint for avatar4
+        endpoint = 'rest/v1/Hillary_Ronen-H' // Table name for Aaron_Peskin
         break
       // Add more cases as needed
     }
@@ -108,6 +117,9 @@ export default function Page() {
       const augmentedData = augmentData(rawData)
       setData(augmentedData)
     }
+
+    // Scroll to the top of the page after fetching data
+    scrollToTop()
   }, [])
 
   return (
