@@ -2,6 +2,8 @@ This project will be divided into several parts: scraping, processing, frontend,
 
 
 # Get Up and Running
+First time Only: python3 -m venv env
+
 source env/bin/activate && source .env
 pip3 install -r requirements.txt
 
