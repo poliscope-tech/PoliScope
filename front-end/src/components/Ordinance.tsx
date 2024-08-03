@@ -12,9 +12,8 @@ export const Ordinance = ({
 }) => {
   return (
     <div
-      className={`${
-        isActive && 'rounded-md border bg-gray-700'
-      } h-[300px] py-10`}
+      className={`${isActive ? 'rounded-md border bg-gray-700' : ''
+        } h-[350px] py-10`}
     >
       <div className={'max-h-[250px] overflow-hidden'}>
         <Article
@@ -22,8 +21,8 @@ export const Ordinance = ({
           date={ordinance['Action Date'] || new Date()}
           key={ordinance['ID']}
         >
-          <h2>{ordinance.summary}</h2>
-          <p>{ordinance.Title}</p>
+          <h2 className="text-sm font-semibold">{ordinance.summary}</h2>
+          <p className="text-s mt-2">{ordinance.Title}</p>
         </Article>
       </div>
     </div>
