@@ -174,9 +174,11 @@ export const FeedPage: React.FC<FeedPageProps> = ({
         scrollToBottom={scrollToBottom}
       />
 
+      {/* Adjust the main content to accommodate the sticky graph */}
       <div className={`relative flex-auto ${fadeIn ? 'fade-in' : ''}`}>
         {fadeIn && (
-          <main className="">
+          <main className="mt-[350px] lg:mt-0">
+            {/* On mobile, add top margin to avoid content being hidden behind the sticky graph */}
             {ordinances.map((ordinance, index) => (
               <Ordinance
                 key={ordinance?.ID ?? index}
