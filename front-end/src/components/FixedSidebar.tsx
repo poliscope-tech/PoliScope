@@ -1,10 +1,11 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { IOrdinance } from '@/types'
 import { Glow } from './Glow'
 import { StarField } from './StarField'
 import { Bar } from 'react-chartjs-2'
 import { CategoryScale, Chart, registerables } from 'chart.js'
 import { Avatars } from './Avatars'
+import { debounce } from 'lodash'
 
 Chart.register(CategoryScale)
 Chart.register(...registerables)
@@ -34,8 +35,14 @@ type BarChartProps = {
   onScrollToBottom: () => void
 }
 
-const BarChart = ({ ordinance, onScrollToBottom }: BarChartProps) => {
+// Memoize the BarChart to prevent unnecessary re-renders
+const MemoizedBarChart = React.memo(({ ordinance, onScrollToBottom }: BarChartProps) => {
   const chartRef = useRef()
+
+  // Add a debug statement to track when the BarChart re-renders
+  console.log('BarChart re-rendered with ordinance:', ordinance)
+
+  // Ensure the chart data is only created once unless ordinance changes
   const data = {
     labels: ['Housing', 'Tenant', 'Homelessness', 'Faster Permits', 'Zoning'],
     datasets: [
@@ -68,6 +75,9 @@ const BarChart = ({ ordinance, onScrollToBottom }: BarChartProps) => {
       },
     ],
   }
+
+  // Log the chart data before rendering
+  console.log('Chart data:', data)
 
   const options = {
     maintainAspectRatio: false,
@@ -104,13 +114,11 @@ const BarChart = ({ ordinance, onScrollToBottom }: BarChartProps) => {
     >
       <div style={{ display: 'flex', height: '100%' }}>
         <div style={{ flexGrow: 1 }}>
-          {' '}
           {/* Flex grow will push the button to the right */}
           <Bar ref={chartRef} data={data} options={options} />
         </div>
 
         <div style={{ alignSelf: 'center', marginLeft: '130px' }}>
-          {' '}
           {/* Adjust marginLeft for more space */}
           <button
             onClick={onScrollToBottom}
@@ -123,7 +131,7 @@ const BarChart = ({ ordinance, onScrollToBottom }: BarChartProps) => {
       </div>
     </div>
   )
-}
+})
 
 type FixedSidebarProps = {
   main: React.ReactNode
@@ -138,6 +146,12 @@ export function FixedSidebar({
   footer,
   scrollToBottom,
 }: FixedSidebarProps) {
+  // Debounce scroll to bottom to avoid excessive scrolling events triggering re-renders
+  const debouncedScrollToBottom = debounce(scrollToBottom, 200)
+
+  // Log the current ordinance being passed to the FixedSidebar
+  console.log('FixedSidebar currentOrdinance:', currentOrdinance)
+
   return (
     <div className="fixed-sidebar-container relative flex-none overflow-hidden px-6 lg:pointer-events-none lg:fixed lg:inset-0 lg:z-40 lg:flex lg:px-0">
       <Glow />
@@ -150,9 +164,9 @@ export function FixedSidebar({
               {main}
             </div>
             <div className="mt-4">
-              <BarChart
+              <MemoizedBarChart
                 ordinance={currentOrdinance}
-                onScrollToBottom={scrollToBottom}
+                onScrollToBottom={debouncedScrollToBottom}
               />
             </div>
           </div>

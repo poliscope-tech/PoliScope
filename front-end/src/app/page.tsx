@@ -1,11 +1,11 @@
 'use client'
-import { IOrdinance } from '@/types'
+
 import React, { useCallback, useState } from 'react'
+import { IOrdinance } from '@/types'
 import { SlideOutMenu } from '../components/SlideOutMenu'
-import { HamburgerIcon } from '../components/HamburgerIcon';
+import { HamburgerIcon } from '../components/HamburgerIcon'
 import { FeedPage } from '../../views/FeedPage'
 
-// Type annotation for the avatarEndpoint parameter
 async function fetchData(avatarEndpoint: string) {
   const options = {
     headers: {
@@ -15,19 +15,12 @@ async function fetchData(avatarEndpoint: string) {
   }
 
   const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}${avatarEndpoint}`
-
   console.log('Fetching data from URL:', url)
 
   try {
     const res = await fetch(url, options)
     if (!res.ok) {
-      console.error(
-        'Failed to fetch data:',
-        res.status,
-        res.statusText,
-        'URL:',
-        url,
-      )
+      console.error('Failed to fetch data:', res.status, res.statusText, 'URL:', url)
       throw new Error('Failed to fetch data')
     }
     return res.json()
@@ -53,7 +46,7 @@ const scrollToBottom = () => {
   })
 }
 
-// Function to augment data
+// Function to augment data and reset cumulative scores for the new avatar
 function augmentData(rawData: IOrdinance[]) {
   const acc = {
     acc_affordable_housing_development_score: 0,
@@ -86,40 +79,39 @@ function augmentData(rawData: IOrdinance[]) {
 export default function Page() {
   const [data, setData] = useState<IOrdinance[]>([])
   const [selectedAvatar, setSelectedAvatar] = useState<number | null>(null)
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const toggleMenu = useCallback(() => {
-    setMenuOpen(!menuOpen);
-  }, [menuOpen]);
+    setMenuOpen(!menuOpen)
+  }, [menuOpen])
 
   const handleAvatarClick = useCallback(async (avatarIndex: number) => {
     setSelectedAvatar(avatarIndex) // Update the selected avatar state
 
+    // Define the correct endpoint based on avatar selection
     let endpoint = ''
     switch (avatarIndex) {
       case 0:
-        endpoint = 'rest/v1/Dean_Preston-H' // Table name for Dean_Preston
+        endpoint = 'rest/v1/Dean_Preston-H'
         break
       case 1:
-        endpoint = 'rest/v1/Aaron_Peskin-H' // Table name for Myrna_Melgar
+        endpoint = 'rest/v1/Aaron_Peskin-H'
         break
       case 2:
-        endpoint = 'rest/v1/Myrna_Melgar-H' // Table name for Rafael_Mandelman
+        endpoint = 'rest/v1/Myrna_Melgar-H'
         break
       case 3:
-        endpoint = 'rest/v1/Hillary_Ronen-H' // Table name for Aaron_Peskin
+        endpoint = 'rest/v1/Hillary_Ronen-H'
         break
-      // Add more cases as needed
     }
 
     if (endpoint) {
       const rawData = await fetchData(endpoint)
-      const augmentedData = augmentData(rawData)
+      const augmentedData = augmentData(rawData) // Reset cumulative scores on new avatar
       setData(augmentedData)
     }
 
-    // Scroll to the top of the page after fetching data
-    scrollToTop()
+    scrollToTop() // Scroll to the top after avatar data is loaded
   }, [])
 
   return (

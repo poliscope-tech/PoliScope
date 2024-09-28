@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from 'react'
 import { FixedSidebar } from '@/components/FixedSidebar'
 import { IOrdinance } from '../src/types/IOrdinance'
 import { Intro } from '@/components/Intro'
-import { Timeline } from '@/components/Timeline'
 import { Ordinance } from '@/components/Ordinance'
 
 type AvatarsProps = {
@@ -12,17 +11,13 @@ type AvatarsProps = {
   selectedAvatar: number | null
 }
 
-// LEFT SIDE OF PAGE
-const Avatars: React.FC<AvatarsProps> = ({
-  onSelectAvatar,
-  selectedAvatar,
-}) => {
+// Avatars Component
+const Avatars: React.FC<AvatarsProps> = ({ onSelectAvatar, selectedAvatar }) => {
   const [clickedAvatar, setClickedAvatar] = useState<number | null>(null)
 
   const handleAvatarClick = (index: number) => {
     setClickedAvatar(index)
     onSelectAvatar(index)
-
     setTimeout(() => setClickedAvatar(null), 500)
   }
 
@@ -33,8 +28,8 @@ const Avatars: React.FC<AvatarsProps> = ({
           key={index}
           src={`/images/avatar${index + 1}.jpeg`}
           alt={`Avatar ${index + 1}`}
-          className={`avatar ${selectedAvatar === index ? 'avatar-selected' : ''
-            } ${clickedAvatar === index ? 'pulsate-bck' : ''}`}
+          className={`avatar ${selectedAvatar === index ? 'avatar-selected' : ''} ${clickedAvatar === index ? 'pulsate-bck' : ''
+            }`}
           onClick={() => handleAvatarClick(index)}
         />
       ))}
@@ -53,16 +48,47 @@ export const FeedPage: React.FC<FeedPageProps> = ({
   onAvatarClick,
   selectedAvatar,
 }) => {
-  const defaultOrdinance: Partial<IOrdinance> = {
+  const defaultOrdinance: IOrdinance = {
+    ID: -1,
+    affordable_housing_development_score: 0,
+    tenant_protections_score: 0,
+    homelessness_and_supportive_housing_score: 0,
+    faster_permitting_process_and_bureaucracy_score: 0,
+    land_use_and_zoning_reform: 0,
     acc_affordable_housing_development_score: 0,
     acc_tenant_protections_score: 0,
     acc_homelessness_and_supportive_housing_score: 0,
     acc_faster_permitting_process_and_bureaucracy_score: 0,
     acc_land_use_and_zoning_reform: 0,
+    // Include other properties of IOrdinance as needed
   }
+
   const [currentOrdinance, setCurrentOrdinance] = useState<IOrdinance>(
     ordinances[0] ?? defaultOrdinance,
   )
+
+  // Cumulative scores state
+  const [cumulativeScores, setCumulativeScores] = useState({
+    acc_affordable_housing_development_score: 0,
+    acc_tenant_protections_score: 0,
+    acc_homelessness_and_supportive_housing_score: 0,
+    acc_faster_permitting_process_and_bureaucracy_score: 0,
+    acc_land_use_and_zoning_reform: 0,
+  })
+
+  // Reset cumulative scores when a new avatar is selected
+  useEffect(() => {
+    setCumulativeScores({
+      acc_affordable_housing_development_score: 0,
+      acc_tenant_protections_score: 0,
+      acc_homelessness_and_supportive_housing_score: 0,
+      acc_faster_permitting_process_and_bureaucracy_score: 0,
+      acc_land_use_and_zoning_reform: 0,
+    })
+    setActiveIndex(0)
+    setCurrentOrdinance(ordinances[0] ?? defaultOrdinance)
+    setLastProcessedIndex(-1)
+  }, [ordinances])
 
   const scrollToBottom = () => {
     window.scrollTo({
@@ -81,15 +107,43 @@ export const FeedPage: React.FC<FeedPageProps> = ({
   }, [ordinances])
 
   const [activeIndex, setActiveIndex] = useState(0)
+  const [lastProcessedIndex, setLastProcessedIndex] = useState(-1)
 
   const handleScroll = useCallback(() => {
     const position = window.pageYOffset
-    const newIndex = Math.round(position / 300)
+    const newIndex = Math.min(
+      Math.round(position / 300),
+      ordinances.length - 1,
+    )
+
     if (activeIndex !== newIndex) {
       setActiveIndex(newIndex)
-      setCurrentOrdinance(ordinances[newIndex] ?? defaultOrdinance)
+      const ordinance = ordinances[newIndex] ?? defaultOrdinance
+      setCurrentOrdinance(ordinance)
+
+      // Update cumulative scores if new ordinances are scrolled into view
+      if (newIndex > lastProcessedIndex) {
+        const newCumulativeScores = { ...cumulativeScores }
+
+        for (let i = lastProcessedIndex + 1; i <= newIndex; i++) {
+          const ord = ordinances[i] ?? defaultOrdinance
+          newCumulativeScores.acc_affordable_housing_development_score +=
+            ord.affordable_housing_development_score || 0
+          newCumulativeScores.acc_tenant_protections_score +=
+            ord.tenant_protections_score || 0
+          newCumulativeScores.acc_homelessness_and_supportive_housing_score +=
+            ord.homelessness_and_supportive_housing_score || 0
+          newCumulativeScores.acc_faster_permitting_process_and_bureaucracy_score +=
+            ord.faster_permitting_process_and_bureaucracy_score || 0
+          newCumulativeScores.acc_land_use_and_zoning_reform +=
+            ord.land_use_and_zoning_reform || 0
+        }
+
+        setCumulativeScores(newCumulativeScores)
+        setLastProcessedIndex(newIndex)
+      }
     }
-  }, [activeIndex, ordinances])
+  }, [activeIndex, ordinances, cumulativeScores, lastProcessedIndex])
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -116,6 +170,7 @@ export const FeedPage: React.FC<FeedPageProps> = ({
           </>
         }
         currentOrdinance={currentOrdinance}
+        cumulativeScores={cumulativeScores}
         scrollToBottom={scrollToBottom}
       />
 
