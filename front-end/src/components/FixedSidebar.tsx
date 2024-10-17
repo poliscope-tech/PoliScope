@@ -110,7 +110,7 @@ const MemoizedBarChart = React.memo(({ ordinance, onScrollToBottom }: BarChartPr
   return (
     <div
       style={{ position: 'relative', height: '350px' }}
-      className="bar-chart-container"
+      className="bar-chart-container sticky top-0"
     >
       <div style={{ display: 'flex', height: '100%' }}>
         <div style={{ flexGrow: 1 }}>
