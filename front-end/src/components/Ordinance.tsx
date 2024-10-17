@@ -12,10 +12,9 @@ export const Ordinance = ({
 }) => {
   return (
     <div
-      className={`${isActive ? 'rounded-md border bg-gray-700' : ''
-        } h-[350px] py-10`}
+      className={`${isActive ? 'rounded-md border bg-gray-700' : ''} h-[300px] py-5 relative mb-8`}
     >
-      <div className={'max-h-[250px] overflow-hidden'}>
+      <div className={'max-h-[300px] overflow-hidden'}>
         <Article
           id={ordinance['ID']}
           date={ordinance['Action Date'] || new Date()}
