@@ -31,7 +31,7 @@ def clean_and_format(html_file, output_file):
 
 if __name__ == "__main__":
     # Specify the path to your HTML-like CSV file and the output CSV file
-    html_file_path = '/Users/williammisiaszek/Code/ACCELSF/PoliScope/back-end/scripts/Rafael_Mandelman2.csv'
+    html_file_path = '/Users/williammisiaszek/Code/ACCELSF/PoliScope/back-end/scripts/deanpreston.csv'
     output_csv_path = '/Users/williammisiaszek/Code/ACCELSF/PoliScope/back-end/scripts/readyformat/output.csv'
 
     # Call the function with the specified paths
