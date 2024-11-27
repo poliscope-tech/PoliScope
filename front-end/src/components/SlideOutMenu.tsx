@@ -12,11 +12,24 @@ export const SlideOutMenu: React.FC<SlideOutMenuProps> = ({ isOpen }) => {
   return (
     <div className={menuClass}>
       <ul>
-        <br></br>
-        <li>Supervisors</li>
-        <li>Districts</li>
-        <li>About Us</li>
-        <li>Contact</li>
+        <li>
+          {/* "About Us" links to an external website */}
+          <a
+            href="https://willfrancisco.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            About Us
+          </a>
+        </li>
+        <li>
+          {/* "Contact" opens the user's default email client */}
+          <a
+            href="mailto:wmisiasz@gmail.com?subject=Inquiry%20to%20PoliScope"
+          >
+            Contact
+          </a>
+        </li>
       </ul>
     </div>
   );
