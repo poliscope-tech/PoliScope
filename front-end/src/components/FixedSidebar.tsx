@@ -119,6 +119,7 @@ MemoizedBarChart.displayName = 'MemoizedBarChart';
 
 type FixedSidebarProps = {
   main: React.ReactNode;
+  footer?: React.ReactNode; // Add footer if used
   currentOrdinance: IOrdinance;
   cumulativeScores: {
     acc_affordable_housing_development_score: number;
