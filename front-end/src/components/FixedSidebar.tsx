@@ -1,49 +1,41 @@
-import React, { useRef, useEffect } from 'react'
-import { IOrdinance } from '@/types'
-import { Glow } from './Glow'
-import { StarField } from './StarField'
-import { Bar } from 'react-chartjs-2'
-import { CategoryScale, Chart, registerables } from 'chart.js'
-import { Avatars } from './Avatars'
-import { debounce } from 'lodash'
+import React, { useRef, useEffect, useMemo } from 'react';
+import { IOrdinance } from '@/types';
+import { Glow } from './Glow';
+import { StarField } from './StarField';
+import { Bar } from 'react-chartjs-2';
+import { CategoryScale, Chart, registerables } from 'chart.js';
+import { Avatars } from './Avatars';
+import { debounce } from 'lodash';
 
-Chart.register(CategoryScale)
-Chart.register(...registerables)
+Chart.register(CategoryScale, ...registerables);
 
 type Avatars2Props = {
-  onScrollToBottom: () => void
-}
+  onScrollToBottom: () => void;
+};
 
-const Avatars2: React.FC<Avatars2Props> = ({ onScrollToBottom }) => {
-  return (
-    <div className="mt-4 flex justify-center">
-      <div className="flex space-x-6 p-4 shadow-lg">
-        <button
-          onClick={onScrollToBottom}
-          className="scroll-to-bottom-button"
-          aria-label="Scroll to bottom"
-        >
-          ↓
-        </button>
-      </div>
+const Avatars2: React.FC<Avatars2Props> = ({ onScrollToBottom }) => (
+  <div className="mt-4 flex justify-center">
+    <div className="flex space-x-6 p-4 shadow-lg">
+      <button
+        onClick={onScrollToBottom}
+        className="scroll-to-bottom-button"
+        aria-label="Scroll to bottom"
+      >
+        ↓
+      </button>
     </div>
-  )
-}
+  </div>
+);
 
 type BarChartProps = {
-  ordinance: IOrdinance
-  onScrollToBottom: () => void
-}
+  ordinance: IOrdinance;
+  onScrollToBottom: () => void;
+};
 
-// Memoize the BarChart to prevent unnecessary re-renders
-const MemoizedBarChart = React.memo(({ ordinance, onScrollToBottom }: BarChartProps) => {
-  const chartRef = useRef()
+const MemoizedBarChart: React.FC<BarChartProps> = React.memo(({ ordinance, onScrollToBottom }) => {
+  const chartRef = useRef();
 
-  // Add a debug statement to track when the BarChart re-renders
-  console.log('BarChart re-rendered with ordinance:', ordinance)
-
-  // Ensure the chart data is only created once unless ordinance changes
-  const data = {
+  const chartData = useMemo(() => ({
     labels: ['Housing', 'Tenant', 'Homelessness', 'Faster Permits', 'Zoning'],
     datasets: [
       {
@@ -61,7 +53,6 @@ const MemoizedBarChart = React.memo(({ ordinance, onScrollToBottom }: BarChartPr
           'rgba(255, 206, 86, 0.2)',
           'rgba(75, 192, 192, 0.2)',
           'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
         ],
         borderColor: [
           'rgba(255, 99, 132, 1)',
@@ -69,29 +60,27 @@ const MemoizedBarChart = React.memo(({ ordinance, onScrollToBottom }: BarChartPr
           'rgba(255, 206, 86, 1)',
           'rgba(75, 192, 192, 1)',
           'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
         ],
         borderWidth: 1,
       },
     ],
-  }
+  }), [ordinance]);
 
-  // Log the chart data before rendering
-  console.log('Chart data:', data)
-
-  const options = {
+  const chartOptions = {
     maintainAspectRatio: false,
     scales: {
       x: {
         ticks: {
           font: {
-            size: 14, // Adjust this value to increase the font size
+            size: 14,
           },
         },
       },
       y: {
         ticks: {
-          // Include y-axis tick configuration if needed
+          font: {
+            size: 12,
+          },
         },
       },
     },
@@ -99,27 +88,20 @@ const MemoizedBarChart = React.memo(({ ordinance, onScrollToBottom }: BarChartPr
       legend: {
         labels: {
           font: {
-            size: 14, // Adjust this value to increase the font size of the legend labels
+            size: 14,
           },
         },
       },
     },
-    // ... any other options you have set
-  }
+  };
 
   return (
-    <div
-      style={{ position: 'relative', height: '350px' }}
-      className="bar-chart-container sticky top-0"
-    >
+    <div style={{ position: 'relative', height: '350px' }} className="bar-chart-container sticky top-0">
       <div style={{ display: 'flex', height: '100%' }}>
         <div style={{ flexGrow: 1 }}>
-          {/* Flex grow will push the button to the right */}
-          <Bar ref={chartRef} data={data} options={options} />
+          <Bar ref={chartRef} data={chartData} options={chartOptions} />
         </div>
-
         <div style={{ alignSelf: 'center', marginLeft: '130px' }}>
-          {/* Adjust marginLeft for more space */}
           <button
             onClick={onScrollToBottom}
             className="scroll-to-bottom-button"
@@ -130,15 +112,23 @@ const MemoizedBarChart = React.memo(({ ordinance, onScrollToBottom }: BarChartPr
         </div>
       </div>
     </div>
-  )
-})
+  );
+});
+
+MemoizedBarChart.displayName = 'MemoizedBarChart';
 
 type FixedSidebarProps = {
-  main: React.ReactNode
-  currentOrdinance: IOrdinance
-  footer?: React.ReactNode
-  scrollToBottom: () => void
-}
+  main: React.ReactNode;
+  currentOrdinance: IOrdinance;
+  cumulativeScores: {
+    acc_affordable_housing_development_score: number;
+    acc_tenant_protections_score: number;
+    acc_homelessness_and_supportive_housing_score: number;
+    acc_faster_permitting_process_and_bureaucracy_score: number;
+    acc_land_use_and_zoning_reform: number;
+  };
+  scrollToBottom: () => void;
+};
 
 export function FixedSidebar({
   main,
@@ -146,11 +136,11 @@ export function FixedSidebar({
   footer,
   scrollToBottom,
 }: FixedSidebarProps) {
-  // Debounce scroll to bottom to avoid excessive scrolling events triggering re-renders
-  const debouncedScrollToBottom = debounce(scrollToBottom, 200)
+  const debouncedScrollToBottom = debounce(scrollToBottom, 200);
 
-  // Log the current ordinance being passed to the FixedSidebar
-  console.log('FixedSidebar currentOrdinance:', currentOrdinance)
+  useEffect(() => {
+    console.log('FixedSidebar currentOrdinance:', currentOrdinance);
+  }, [currentOrdinance]);
 
   return (
     <div className="fixed-sidebar-container relative flex-none overflow-hidden px-6 lg:pointer-events-none lg:fixed lg:inset-0 lg:z-40 lg:flex lg:px-0">
@@ -164,10 +154,7 @@ export function FixedSidebar({
               {main}
             </div>
             <div className="mt-4">
-              <MemoizedBarChart
-                ordinance={currentOrdinance}
-                onScrollToBottom={debouncedScrollToBottom}
-              />
+              <MemoizedBarChart ordinance={currentOrdinance} onScrollToBottom={debouncedScrollToBottom} />
             </div>
           </div>
           <div className="flex flex-1 items-end justify-center pb-4 lg:justify-start lg:pb-6">
@@ -176,5 +163,5 @@ export function FixedSidebar({
         </div>
       </div>
     </div>
-  )
+  );
 }

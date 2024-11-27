@@ -43,6 +43,7 @@
     "unist-util-visit": "^4.1.2"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.13",
     "@types/react-chartjs-2": "^2.5.7",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.16",

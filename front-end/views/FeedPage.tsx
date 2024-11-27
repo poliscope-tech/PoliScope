@@ -49,7 +49,12 @@ export const FeedPage: React.FC<FeedPageProps> = ({
   selectedAvatar,
 }) => {
   const defaultOrdinance: IOrdinance = {
-    ID: -1,
+    ID: '-1', // Changed to string
+    Title: 'Default Title',
+    summary: 'Default summary',
+    'Meeting Body': 'Default Meeting Body',
+    'Action Date': '0000-00-00', // Use a placeholder date or null if the type allows it
+    vote: 'None', // Set a default vote value if applicable (e.g., 'Aye', 'No', or 'None')
     affordable_housing_development_score: 0,
     tenant_protections_score: 0,
     homelessness_and_supportive_housing_score: 0,
@@ -60,8 +65,7 @@ export const FeedPage: React.FC<FeedPageProps> = ({
     acc_homelessness_and_supportive_housing_score: 0,
     acc_faster_permitting_process_and_bureaucracy_score: 0,
     acc_land_use_and_zoning_reform: 0,
-    // Include other properties of IOrdinance as needed
-  }
+  };
 
   const [currentOrdinance, setCurrentOrdinance] = useState<IOrdinance>(
     ordinances[0] ?? defaultOrdinance,

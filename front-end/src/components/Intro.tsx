@@ -48,7 +48,7 @@ function Intro2() {
         Aaron Peskin <br />
       </h1>
       <p className="mt-4 text-sm/6 text-gray-300">
-        Supervisor Aaron Peskin of SF's District 3 is the President of the Board of Supervisors and a champion of affordable housing and environmental sustainability. Representing areas like North Beach and Chinatown, he's served five terms, including two prior stints as Board President. Peskin co-authored SF's first inclusionary housing law, leading efforts to expand affordable housing. He also advocates for waterfront protections and conservation. Peskin serves on the Land Use and Transportation Committee and holds roles on the Bay Conservation & Development Commission and the San Francisco Bay Restoration Authority.
+        Supervisor Aaron Peskin of SF&apos;s District 3 is the President of the Board of Supervisors and a champion of affordable housing and environmental sustainability. Representing areas like North Beach and Chinatown, he&apos;s served five terms, including two prior stints as Board President. Peskin co-authored SF&apos;s first inclusionary housing law, leading efforts to expand affordable housing. He also advocates for waterfront protections and conservation. Peskin serves on the Land Use and Transportation Committee and holds roles on the Bay Conservation &amp; Development Commission and the San Francisco Bay Restoration Authority.
       </p>
     </>
   );
@@ -63,7 +63,7 @@ function Intro3() {
         Myrna Melgar <br />
       </h1>
       <p className="mt-4 text-sm/6 text-gray-300">
-        Supervisor Myrna Melgar of SF's District 7 was elected in 2020, succeeding Norman Yee. She chairs the Land Use and Transportation Committee and serves on various committees, including Youth, Young Adult, and Families. Melgar is also a Commissioner for the County Transportation Authority and Bay Area Air Quality District. She has supported the expansion of the 'Free Muni for Youth' program. In housing, she made headlines by voting against a 495-unit apartment project, sparking a state investigation, and opposed restrictive housing legislation in the Northern Waterfront area.
+        Supervisor Myrna Melgar of SF&apos;s District 7 was elected in 2020, succeeding Norman Yee. She chairs the Land Use and Transportation Committee and serves on various committees, including Youth, Young Adult, and Families. Melgar is also a Commissioner for the County Transportation Authority and Bay Area Air Quality District. She has supported the expansion of the &apos;Free Muni for Youth&apos; program. In housing, she made headlines by voting against a 495-unit apartment project, sparking a state investigation, and opposed restrictive housing legislation in the Northern Waterfront area.
       </p>
     </>
   );
@@ -78,7 +78,7 @@ function Intro4() {
         Hillary Ronen <br />
       </h1>
       <p className="mt-4 text-sm/6 text-gray-300">
-        Supervisor Hillary Ronen of SF's District 9 is a former immigrant rights attorney who helped pass California's Domestic Workers' Bill of Rights. Elected in 2016, she champions affordable housing and mental health reform. Ronen co-authored the Student Success Fund, securing $60 million annually for educational support. She's known for her housing policies, including opposition to certain developments and tenant protections. Ronen also advocates for public safety reform, proposing budget cuts to the SFPD and expanding mental health services. Her work emphasizes community support, equity, and addressing systemic issues.
+        Supervisor Hillary Ronen of SF&apos;s District 9 is a former immigrant rights attorney who helped pass California&apos;s Domestic Workers&apos; Bill of Rights. Elected in 2016, she champions affordable housing and mental health reform. Ronen co-authored the Student Success Fund, securing $60 million annually for educational support. She&apos;s known for her housing policies, including opposition to certain developments and tenant protections. Ronen also advocates for public safety reform, proposing budget cuts to the SFPD and expanding mental health services. Her work emphasizes community support, equity, and addressing systemic issues.
       </p>
     </>
   );

@@ -2,9 +2,9 @@ export interface IOrdinance {
   ID: string
   Title: string
   summary: string
-  'Meeting Body': string
+  'Meeting Body': string; // Add this line
   'Action Date': string
-  vote: 'Yay' | 'No' | 'Excused'
+  vote: "Yay" | "No" | "Excused" | "None"; // Add "None" as a valid option
   affordable_housing_development_score: number
   tenant_protections_score: number
   homelessness_and_supportive_housing_score: number
