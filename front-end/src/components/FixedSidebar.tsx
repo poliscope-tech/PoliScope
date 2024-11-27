@@ -144,9 +144,7 @@ export function FixedSidebar({
   }, [currentOrdinance]);
 
   return (
-    <div className="fixed-sidebar-container relative flex-none overflow-hidden px-6 lg:pointer-events-none lg:fixed lg:inset-0 lg:z-40 lg:flex lg:px-0">
-      <Glow />
-      <Avatars />
+    <div className="fixed-sidebar-container bg-black fixed z-[80] flex-none overflow-y-auto h-screen px-6 lg:pointer-events-auto lg:inset-0 lg:flex lg:px-0" style={{ top: '-20px' }}>      <Avatars />
       <div className="relative flex w-full lg:pointer-events-auto lg:mr-[calc(max(2rem,50%-38rem)+40rem)] lg:min-w-[32rem] lg:overflow-y-auto lg:overflow-x-hidden lg:pl-[max(4rem,calc(50%-38rem))]">
         <div className="mx-auto max-w-lg lg:mx-0 lg:flex lg:w-96 lg:max-w-none lg:flex-col lg:before:flex-1">
           <div className="pb-4 pt-4 sm:pb-8 sm:pt-8 lg:py-4">
